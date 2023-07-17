@@ -8,6 +8,10 @@ app.use(express.json());
 
 const baseURL = 'https://graph.facebook.com/v15.0';
 
+app.get('/', (req, res) => {
+  res.send('Working');
+});
+
 app.post('/webhook', (req, res) => {
   let body = req.body;
 
