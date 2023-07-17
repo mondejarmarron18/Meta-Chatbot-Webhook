@@ -5,6 +5,7 @@ import axios from 'axios';
 const app = express();
 
 app.use(express.json());
+app.use(express.static('public'));
 
 const baseURL = 'https://graph.facebook.com/v15.0';
 
@@ -90,3 +91,5 @@ app.post('/conversations/:id', async (req, res) => {
 app.listen(config.APP_PORT, () => {
   console.log(`Listening to port ${config.APP_PORT}`);
 });
+
+module.exports = app;
