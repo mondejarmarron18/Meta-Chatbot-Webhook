@@ -13,6 +13,10 @@ app.use(cors());
 
 // app.use('/public', express.static(path.join(__dirname, 'public')));
 
+app.get('/', (req, res) => {
+  res.send('LWS FB Chat');
+});
+
 app.post('/webhook', (req, res) => {
   let body = req.body;
 
@@ -85,5 +89,3 @@ app.post('/conversations/:id', async (req, res) => {
 app.listen(config.APP_PORT, () => {
   console.log(`Listening to port ${config.APP_PORT}`);
 });
-
-module.exports = app;
