@@ -84,6 +84,6 @@ app.post('/conversations/:id', async (req, res) => {
   }
 });
 
-app.listen(config.APP_PORT, () => {
-  console.log(`Listening to port ${config.APP_PORT}`);
+app.listen(config.PORT, () => {
+  console.log(`Listening to port ${config.PORT}`);
 });
