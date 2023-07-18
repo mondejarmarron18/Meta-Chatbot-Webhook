@@ -7,11 +7,9 @@ import path from 'path';
 const baseURL = 'https://graph.facebook.com/v15.0';
 const app = express();
 
-// app.use(express.static('public'));
+app.use(express.static('public'));
 app.use(express.json());
 app.use(cors());
-
-// app.use('/public', express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
   res.send('LWS FB Chat');
