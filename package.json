@@ -1,15 +1,14 @@
 {
   "name": "fb-chat",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "index.ts",
   "license": "MIT",
   "engines": {
-    "node": "v18.14.2",
-    "npm": "please-use-yarn"
+    "node": "v18.14.2"
   },
   "scripts": {
-    "dev": "nodemon src/index.ts",
-    "start": "ts-node src/index.ts"
+    "dev": "nodemon index.ts",
+    "start": "ts-node index.ts"
   },
   "dependencies": {
     "axios": "^1.4.0",

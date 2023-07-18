@@ -1,5 +1,5 @@
 import express from 'express';
-import config from './utils/config';
+import config from './src/utils/config';
 import axios from 'axios';
 import cors from 'cors';
 
