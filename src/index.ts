@@ -70,17 +70,17 @@ app.get('/conversations/:id', async (req, res) => {
   }
 });
 
-app.post('/conversations', async (req, res) => {
+app.post('/conversations/:psid', async (req, res) => {
   try {
-    // const { id } = req.params;
-    // const body = req.body;
+    const { psid } = req.params;
+    const body = req.body;
 
     const result = await axios.post(
       `${baseURL}/${config.FB_PAGE_ID}/messages`,
       {
         params: {
-          recipient: { id: '5952517774800256' },
-          message: { text: 'Hello World!' },
+          recipient: { id: psid },
+          message: { text: body?.message },
           messaging_type: 'RESPONSE',
           access_token: config.FB_PAGE_ACCESS_TOKEN,
         },
