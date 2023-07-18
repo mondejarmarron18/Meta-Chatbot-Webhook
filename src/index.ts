@@ -78,12 +78,10 @@ app.post('/conversations', async (req, res) => {
     const result = await axios.post(
       `${baseURL}/${config.FB_PAGE_ID}/messages`,
       {
-        data: {
+        params: {
           recipient: { id: '5952517774800256' },
           message: { text: 'Hello World!' },
           messaging_type: 'RESPONSE',
-        },
-        params: {
           access_token: config.FB_PAGE_ACCESS_TOKEN,
         },
       }
