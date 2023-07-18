@@ -89,3 +89,5 @@ app.post('/conversations/:id', async (req, res) => {
 app.listen(config.APP_PORT, () => {
   console.log(`Listening to port ${config.APP_PORT}`);
 });
+
+module.exports = app;
