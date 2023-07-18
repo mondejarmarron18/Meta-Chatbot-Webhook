@@ -2,7 +2,6 @@ import express from 'express';
 import config from './utils/config';
 import axios from 'axios';
 import cors from 'cors';
-import path from 'path';
 
 const baseURL = 'https://graph.facebook.com/v17.0';
 const app = express();
@@ -15,13 +14,24 @@ app.get('/', (req, res) => {
   res.send('LWS FB Chat');
 });
 
-app.post('/webhook', (req, res) => {
-  let body = req.body;
+// Add support for GET requests to our webhook
+app.get('/webhook', (req, res) => {
+  // Parse the query params
+  let mode = req.query['hub.mode'];
+  let token = req.query['hub.verify_token'];
+  let challenge = req.query['hub.challenge'];
 
-  if (body.object === 'page') {
-    res.status(200).send('EVENT_RECEIVED');
-  } else {
-    res.sendStatus(404);
+  // Check if a token and mode is in the query string of the request
+  if (mode && token) {
+    // Check the mode and token sent is correct
+    if (mode === 'subscribe' && token === config.FB_VERIFY_TOKEN) {
+      // Respond with the challenge token from the request
+      console.log('WEBHOOK_VERIFIED');
+      res.status(200).send(challenge);
+    } else {
+      // Respond with '403 Forbidden' if verify tokens do not match
+      res.sendStatus(403);
+    }
   }
 });
 
@@ -60,18 +70,20 @@ app.get('/conversations/:id', async (req, res) => {
   }
 });
 
-app.post('/conversations/:id', async (req, res) => {
+app.post('/conversations', async (req, res) => {
   try {
-    const { id } = req.params;
-    const body = req.body;
+    // const { id } = req.params;
+    // const body = req.body;
 
     const result = await axios.post(
       `${baseURL}/${config.FB_PAGE_ID}/messages`,
       {
-        params: {
-          recipient: { id },
-          message: { text: body.message },
+        data: {
+          recipient: { id: '5952517774800256' },
+          message: { text: 'Hello World!' },
           messaging_type: 'RESPONSE',
+        },
+        params: {
           access_token: config.FB_PAGE_ACCESS_TOKEN,
         },
       }
