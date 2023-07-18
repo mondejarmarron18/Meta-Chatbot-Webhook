@@ -11,7 +11,7 @@ app.use(express.static('public'));
 app.use(express.json());
 app.use(cors());
 
-app.use('/public', express.static(path.join(__dirname, 'public')));
+// app.use('/public', express.static(path.join(__dirname, 'public')));
 
 app.post('/webhook', (req, res) => {
   let body = req.body;
