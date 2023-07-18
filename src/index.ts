@@ -2,14 +2,16 @@ import express from 'express';
 import config from './utils/config';
 import axios from 'axios';
 import cors from 'cors';
+import path from 'path';
 
+const baseURL = 'https://graph.facebook.com/v15.0';
 const app = express();
 
 app.use(express.static('public'));
 app.use(express.json());
 app.use(cors());
 
-const baseURL = 'https://graph.facebook.com/v15.0';
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
 app.post('/webhook', (req, res) => {
   let body = req.body;
