@@ -17,9 +17,12 @@ app.get('/', (req, res) => {
 // Add support for GET requests to our webhook
 app.get('/webhook', (req, res) => {
   // Parse the query params
-  let mode = req.query['hub.mode'];
-  let token = req.query['hub.verify_token'];
-  let challenge = req.query['hub.challenge'];
+  const mode = req.query['hub.mode'];
+  const token = req.query['hub.verify_token'];
+  const challenge = req.query['hub.challenge'];
+  const body = req.body;
+
+  console.log(body?.entry);
 
   // Check if a token and mode is in the query string of the request
   if (mode && token) {
@@ -86,9 +89,8 @@ app.post('/conversations/:psid', async (req, res) => {
         },
       }
     );
-    const data = await result.data;
 
-    res.send(data);
+    res.send(result);
   } catch (error) {
     res.send(error);
   }
