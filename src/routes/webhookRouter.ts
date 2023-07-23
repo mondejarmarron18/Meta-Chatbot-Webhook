@@ -85,7 +85,7 @@ webhookRouter.post('/', async (req, res) => {
             }
           );
         } else if (event.postback) {
-          switch (event.payload) {
+          switch (event.postback.payload) {
             case 'about_us':
               return await api.post(
                 `/me/messages`,
