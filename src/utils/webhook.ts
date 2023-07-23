@@ -9,8 +9,8 @@ export enum webhookPostbackPayload {
   'visitWebsite' = 'visit_website',
 }
 
-export const postWelcome = (psid: string) => {
-  return api.post(
+export const postWelcome = async (psid: string) => {
+  return await api.post(
     `/me/messages`,
     {
       recipient: {
@@ -51,8 +51,8 @@ export const postWelcome = (psid: string) => {
   );
 };
 
-export const postAboutUs = (psid: string) => {
-  return api.post(
+export const postAboutUs = async (psid: string) => {
+  return await api.post(
     `/${config.FB_PAGE_ID}/messages`,
     {
       recipient: {
