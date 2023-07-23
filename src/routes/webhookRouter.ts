@@ -22,6 +22,8 @@ webhookRouter.get('/', async (req, res) => {
       res.sendStatus(403);
     }
 
+    console.log(req.query);
+
     res.status(200).send(challenge);
   }
 });
