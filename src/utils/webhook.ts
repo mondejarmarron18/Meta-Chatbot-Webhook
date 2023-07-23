@@ -9,8 +9,8 @@ export enum webhookPostbackPayload {
   'visitWebsite' = 'visit_website',
 }
 
-export const postWelcome = async (psid: string) => {
-  return await api.post(
+export const postWelcome = (psid: string) => {
+  return api.post(
     `/me/messages`,
     {
       recipient: {
@@ -51,7 +51,7 @@ export const postWelcome = async (psid: string) => {
   );
 };
 
-export const postAboutUs = async (psid: string) => {
+export const postAboutUs = (psid: string) => {
   return api.post(
     `/me/messages`,
     {
