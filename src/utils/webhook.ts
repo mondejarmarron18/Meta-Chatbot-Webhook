@@ -101,6 +101,13 @@ export const postOurServices = async (psid: string) => {
                 'https://lightweightsolutions.co/wp-content/uploads/2022/08/lightweight-solutions-software-development-service.png',
               subtitle:
                 'Donec iaculis, diam ac fringilla hendrerit, leo risus consequat sapien, a maximus tortor sem sed magna. In vestibulum efficitur tincidunt. Sed condimentum convallis urna. Vestibulum varius dignissim ipsum, sed ultricies leo tristique vitae. Duis fringilla a risus non scelerisque. Nulla eu dolor sed velit placerat sagittis eget nec dolor. Morbi.',
+              buttons: [
+                {
+                  type: 'postback',
+                  title: 'Inquire Service',
+                  payload: `service_${index + 1}`,
+                },
+              ],
             })),
           },
         },
