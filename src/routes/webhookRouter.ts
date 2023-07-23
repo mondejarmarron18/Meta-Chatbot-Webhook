@@ -43,6 +43,7 @@ webhookRouter.post('/', async (req, res) => {
               return postOurServices(psid);
           }
         } else if (event?.quick_reply) {
+          console.log(event.quick_reply);
           switch (event.quick_reply?.payload) {
             case webhookPostbackPayload.goBack:
               return postWelcome(psid);
