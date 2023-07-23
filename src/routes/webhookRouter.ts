@@ -41,7 +41,7 @@ webhookRouter.post('/', async (req, res) => {
       entry.messaging.forEach(async (event: any) => {
         const psid = event.sender.id;
 
-        console.log(event);
+        console.log(entry);
 
         // await api.post(
         //   `/me/messages`,
