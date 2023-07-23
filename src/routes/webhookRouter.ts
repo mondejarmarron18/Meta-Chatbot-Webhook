@@ -8,6 +8,7 @@ webhookRouter.post('/', async (req, res) => {
   const body = req.body;
 
   if (body.object === 'page') {
+    console.log(body.entry);
     res.status(200).send('EVENT_RECEIVED');
   } else {
     res.sendStatus(404);
@@ -27,8 +28,8 @@ webhookRouter.get('/', async (req, res) => {
 
     console.log(entry);
 
-    await api
-      .post(`/me/messenger_profile`, {
+    try {
+      await api.post(`/me/messenger_profile`, {
         params: {
           access_token: config.FB_PAGE_ACCESS_TOKEN,
         },
@@ -60,11 +61,12 @@ webhookRouter.get('/', async (req, res) => {
             },
           ],
         },
-      })
-      .then(() => {
-        console.log('WEBHOOK_VERIFIED');
-        res.send(challenge);
       });
+
+      res.send(challenge);
+    } catch (error) {
+      console.log(error);
+    }
   }
 });
 
