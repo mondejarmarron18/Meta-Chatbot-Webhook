@@ -33,22 +33,24 @@ webhookRouter.post('/', async (req, res) => {
         const psid = event.sender.id;
 
         if (event?.message) {
-          console.log(event.message);
-          postWelcome(psid);
+          if (event.message?.quick_reply) {
+            console.log(event.message);
+            switch (event.quick_reply?.payload) {
+              case webhookPostbackPayload.goBack:
+                return postWelcome(psid);
+              case webhookPostbackPayload.visitWebsite:
+                return (window.location.href =
+                  'https://lightweightsolutions.co');
+            }
+          } else {
+            postWelcome(psid);
+          }
         } else if (event?.postback) {
           switch (event.postback?.payload) {
             case webhookPostbackPayload.aboutUs:
               return postAboutUs(psid);
             case webhookPostbackPayload.ourServices:
               return postOurServices(psid);
-          }
-        } else if (event?.quick_reply) {
-          console.log(event.quick_reply);
-          switch (event.quick_reply?.payload) {
-            case webhookPostbackPayload.goBack:
-              return postWelcome(psid);
-            case webhookPostbackPayload.visitWebsite:
-              return (window.location.href = 'https://lightweightsolutions.co');
           }
         }
       });
