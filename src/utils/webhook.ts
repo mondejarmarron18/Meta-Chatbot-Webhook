@@ -53,32 +53,48 @@ export const postWelcome = (psid: string) => {
 
 export const postAboutUs = (psid: string) => {
   return api.post(
-    `/me/messages`,
+    `/${config.FB_PAGE_ID}/messages`,
     {
       recipient: {
         id: psid,
       },
       messaging_type: 'RESPONSE',
       message: {
-        text: 'Lightweight Solutions founded in 2008 is an expert in the field of IT and has worked with many multinational and leading enterprises in the country.\n\nThe company has developed innovations, software solutions and technology products in the areas of healthcare, finance, FMCG, real estate, education, entertainment and electrification among others.\n\nWe envision a world that is smarter, better and more enjoyable through simplified technology while making it sustainable for future generations as well. We believe in innovations and smart solutions that create valuable impact to improve lifestyle and businesses while making a better...',
-        quick_replies: [
-          {
-            content_type: 'text',
-            title: 'Learn More',
-            payload: webhookPostbackPayload.visitWebsite,
-          },
-          {
-            content_type: 'text',
-            title: 'Go Back',
-            payload: webhookPostbackPayload.goBack,
-          },
-        ],
+        text: 'Lightweight Solutions founded in 2008 is an expert in the field of IT and has worked with many multinational and leading enterprises in the country.\n\nThe company has developed innovations, software solutions and technology products in the areas of healthcare, finance, FMCG, real estate, education, entertainment and electrification among others.\n\nWe envision a world that is smarter, better and more enjoyable through simplified technology while making it sustainable for future generations as well. We believe in innovations and smart solutions that create valuable impact to improve lifestyle and businesses while making a better world.\n\nWe simplify technology for you. Let us help you reach your goals.\n\nLet us build a smart and sustainable world TOGETHER.',
       },
     },
     {
-      params: {
-        access_token: config.FB_PAGE_ACCESS_TOKEN,
-      },
+      params: { access_token: config.FB_PAGE_ACCESS_TOKEN },
     }
   );
+
+  //   return api.post(
+  //     `/me/messages`,
+  //     {
+  //       recipient: {
+  //         id: psid,
+  //       },
+  //       messaging_type: 'RESPONSE',
+  //       message: {
+  //         text: 'Lightweight Solutions founded in 2008 is an expert in the field of IT and has worked with many multinational and leading enterprises in the country.\n\nThe company has developed innovations, software solutions and technology products in the areas of healthcare, finance, FMCG, real estate, education, entertainment and electrification among others.\n\nWe envision a world that is smarter, better and more enjoyable through simplified technology while making it sustainable for future generations as well. We believe in innovations and smart solutions that create valuable impact to improve lifestyle and businesses while making a better...',
+  //         quick_replies: [
+  //           {
+  //             content_type: 'text',
+  //             title: 'Learn More',
+  //             payload: webhookPostbackPayload.visitWebsite,
+  //           },
+  //           {
+  //             content_type: 'text',
+  //             title: 'Go Back',
+  //             payload: webhookPostbackPayload.goBack,
+  //           },
+  //         ],
+  //       },
+  //     },
+  //     {
+  //       params: {
+  //         access_token: config.FB_PAGE_ACCESS_TOKEN,
+  //       },
+  //     }
+  //   );
 };

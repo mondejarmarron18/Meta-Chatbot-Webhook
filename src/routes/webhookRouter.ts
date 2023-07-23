@@ -47,9 +47,10 @@ webhookRouter.post('/', async (req, res) => {
         const psid = event.sender.id;
 
         if (event?.message) {
+          console.log(event.message);
           postWelcome(psid);
         } else if (event?.postback) {
-          switch (event?.postback?.payload) {
+          switch (event.postback?.payload) {
             case webhookPostbackPayload.goBack:
               return postWelcome(psid);
             case webhookPostbackPayload.aboutUs:
