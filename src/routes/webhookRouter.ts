@@ -68,11 +68,11 @@ webhookRouter.get('/', async (req, res) => {
   const challenge = req.query['hub.challenge'];
 
   if (mode && token) {
-    if (mode !== 'subscribe' && token !== config.FB_VERIFY_TOKEN) {
-      res.sendStatus(403);
+    if (mode === 'subscribe' && token === config.FB_VERIFY_TOKEN) {
+      return res.send(challenge);
     }
 
-    res.send(challenge);
+    res.sendStatus(403);
   }
 });
 
