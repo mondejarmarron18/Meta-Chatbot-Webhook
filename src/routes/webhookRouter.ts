@@ -46,20 +46,22 @@ webhookRouter.post('/', async (req, res) => {
       entry.messaging.forEach(async (event: any) => {
         const psid = event.sender.id;
 
-        console.log('Message', event?.message);
-        console.log('Payload', event?.postback?.payload);
-
-        if (event?.message) {
-          postWelcome(psid);
-        } else if (event?.postback) {
-          switch (event?.postback?.payload) {
-            case webhookPostbackPayload.aboutUs:
-              return postAboutUs(psid);
-            case webhookPostbackPayload.visitWebsite:
-              return (window.location.href = 'https://lightweightsolutions.co');
-            case webhookPostbackPayload.goBack:
-              return postWelcome(psid);
+        try {
+          if (event?.message) {
+            postWelcome(psid);
+          } else if (event?.postback) {
+            switch (event?.postback?.payload) {
+              case webhookPostbackPayload.goBack:
+                return postWelcome(psid);
+              case webhookPostbackPayload.aboutUs:
+                return postAboutUs(psid);
+              case webhookPostbackPayload.visitWebsite:
+                return (window.location.href =
+                  'https://lightweightsolutions.co');
+            }
           }
+        } catch (error: any) {
+          console.log(error?.message);
         }
       });
     });
