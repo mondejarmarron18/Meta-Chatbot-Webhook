@@ -2,6 +2,7 @@ import api from './api';
 import config from './config';
 
 export enum webhookPostbackPayload {
+  'getStarted' = 'get_started',
   'aboutUs' = 'about_us',
   'ourServices' = 'our_services',
   'inquiries' = 'inquiries',
@@ -11,6 +12,44 @@ export enum webhookPostbackPayload {
   'issuesOrMaintenance' = 'issues_or_maintenance',
   'otherInquiry' = 'other_inquiry',
 }
+
+export const postGetStarted = async () => {
+  return await api.post(
+    '/me/messenger_profile',
+    {
+      whitelisted_domains: 'https://lws-fb-chat-1c47aa033775.herokuapp.com',
+      get_started: { payload: webhookPostbackPayload.getStarted },
+    },
+    {
+      params: {
+        access_token: config.FB_PAGE_ACCESS_TOKEN,
+      },
+    }
+  );
+};
+
+export const postGreeting = async () => {
+  return await api.post(
+    '/me/messenger_profile',
+    {
+      greeting: [
+        {
+          locale: 'default',
+          text: 'Hi {{user_first_name}}!',
+        },
+        {
+          locale: 'en_US',
+          text: 'Welcome to Lightweight Solutions Page! 😊 Please choose from the options below to learn more.',
+        },
+      ],
+    },
+    {
+      params: {
+        access_token: config.FB_PAGE_ACCESS_TOKEN,
+      },
+    }
+  );
+};
 
 export const postWelcome = async (psid: string) => {
   return await api.post(

@@ -2,6 +2,7 @@ import { Router } from 'express';
 import config from '../utils/config';
 import {
   postAboutUs,
+  postGetStarted,
   postInquiries,
   postOtherInquiry,
   postOurServices,
@@ -22,7 +23,7 @@ webhookRouter.get('/', async (req, res) => {
       res.sendStatus(403);
     }
 
-    console.log(req.query);
+    await postGetStarted();
 
     res.status(200).send(challenge);
   }
@@ -36,6 +37,9 @@ webhookRouter.post('/', async (req, res) => {
       entry.messaging.forEach((event: any) => {
         const psid = event.sender.id;
 
+        console.log(`Message`, event?.message);
+        console.log(`Postback`, event?.postback);
+
         if (event?.message) {
           if (event.message?.quick_reply) {
             switch (event.message.quick_reply?.payload) {
@@ -47,6 +51,8 @@ webhookRouter.post('/', async (req, res) => {
           }
         } else if (event?.postback) {
           switch (event.postback?.payload) {
+            case webhookPostbackPayload.getStarted:
+              return postGetStarted();
             case webhookPostbackPayload.aboutUs:
               return postAboutUs(psid);
             case webhookPostbackPayload.ourServices:
