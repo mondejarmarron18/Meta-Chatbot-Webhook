@@ -15,7 +15,7 @@ app.get('/', (req, res) => {
 });
 
 // Add support for GET requests to our webhook
-app.get('/webhook', (req, res) => {
+app.get('/webhook', async (req, res) => {
   // Parse the query params
   const mode = req.query['hub.mode'];
   const token = req.query['hub.verify_token'];
@@ -29,10 +29,16 @@ app.get('/webhook', (req, res) => {
     // Check the mode and token sent is correct
     if (mode === 'subscribe' && token === config.FB_VERIFY_TOKEN) {
       // Respond with the challenge token from the request
-      res.status(200).send(challenge);
 
       try {
-        axios.post(`${baseURL}/me/messenger_profile`, {
+        await axios.post(`${config.FB_PAGE_ID}/chat_plugin`, {
+          params: {
+            welcome_screen_greeting: 'Hello {{user_first_name}}',
+            access_token: config.FB_PAGE_ACCESS_TOKEN,
+          },
+        });
+
+        await axios.post(`${baseURL}/me/messenger_profile`, {
           params: {
             access_token: config.FB_PAGE_ACCESS_TOKEN,
           },
@@ -71,6 +77,8 @@ app.get('/webhook', (req, res) => {
             ],
           },
         });
+
+        res.status(200).send(challenge);
       } catch (error) {
         res.send(error);
       }
