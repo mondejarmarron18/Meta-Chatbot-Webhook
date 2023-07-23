@@ -4,9 +4,12 @@ import config from './config';
 export enum webhookPostbackPayload {
   'aboutUs' = 'about_us',
   'ourServices' = 'our_services',
-  'inquiry' = 'inquiry',
+  'inquiries' = 'inquiries',
   'goBack' = 'go_back',
   'visitWebsite' = 'visit_website',
+  'scheduleMeeting' = 'schedule_meeting',
+  'issuesOrMaintenance' = 'issues_or_maintenance',
+  'otherInquiry' = 'other_inquiry',
 }
 
 export const postWelcome = async (psid: string) => {
@@ -36,7 +39,7 @@ export const postWelcome = async (psid: string) => {
               {
                 type: 'postback',
                 title: 'Inquiry',
-                payload: webhookPostbackPayload.inquiry,
+                payload: webhookPostbackPayload.inquiries,
               },
             ],
           },
@@ -116,6 +119,95 @@ export const postOurServices = async (psid: string) => {
             })),
           },
         },
+      },
+    },
+    {
+      params: {
+        access_token: config.FB_PAGE_ACCESS_TOKEN,
+      },
+    }
+  );
+};
+
+export const postInquiries = async (psid: string) => {
+  return await api.post(
+    `/me/messages`,
+    {
+      recipient: {
+        id: psid,
+      },
+      message: {
+        attachment: {
+          type: 'template',
+          payload: {
+            template_type: 'button',
+            text: `Please select your inquiry below:`,
+            buttons: [
+              {
+                type: 'postback',
+                title: 'Schedule a Meeting',
+                payload: webhookPostbackPayload.scheduleMeeting,
+              },
+              {
+                type: 'postback',
+                title: 'Issues/Maintenance',
+                payload: webhookPostbackPayload.issuesOrMaintenance,
+              },
+              {
+                type: 'postback',
+                title: 'Other Inquiry',
+                payload: webhookPostbackPayload.otherInquiry,
+              },
+            ],
+          },
+        },
+      },
+    },
+    {
+      params: {
+        access_token: config.FB_PAGE_ACCESS_TOKEN,
+      },
+    }
+  );
+};
+
+export const postOtherInquiry = async (psid: string) => {
+  return await api.post(
+    `${config.FB_PAGE_ID}/messages`,
+    {
+      recipient: {
+        id: psid,
+      },
+      message_type: 'RESPONSE',
+      message: {
+        text: 'Have other questions or concerns not listed? Feel free to message here and our agent will get back to you with a response 😊',
+      },
+    },
+    {
+      params: {
+        access_token: config.FB_PAGE_ACCESS_TOKEN,
+      },
+    }
+  );
+};
+
+export const postScheduleMeeting = async (psid: string) => {
+  return await api.post(
+    `/me/messages`,
+    {
+      recipient: {
+        id: psid,
+      },
+      messaging_type: 'RESPONSE',
+      message: {
+        text: 'Please let us know your availability so that we can arrange a meeting to discuss your requirements.\n\nSchedule  https://calendly.com/marcmedina',
+        quick_replies: [
+          {
+            content_type: 'text',
+            title: 'Go Back',
+            payload: webhookPostbackPayload.goBack,
+          },
+        ],
       },
     },
     {

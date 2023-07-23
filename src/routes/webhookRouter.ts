@@ -1,8 +1,9 @@
 import { Router } from 'express';
 import config from '../utils/config';
-import api from '../utils/api';
 import {
   postAboutUs,
+  postInquiries,
+  postOtherInquiry,
   postOurServices,
   postWelcome,
   webhookPostbackPayload,
@@ -35,6 +36,10 @@ webhookRouter.post('/', async (req, res) => {
         if (event?.message) {
           if (event.message?.quick_reply) {
             console.log(event.message.quick_reply);
+            switch (event.message.quick_reply) {
+              case webhookPostbackPayload.goBack:
+                return postWelcome(psid);
+            }
           } else {
             postWelcome(psid);
           }
@@ -44,6 +49,10 @@ webhookRouter.post('/', async (req, res) => {
               return postAboutUs(psid);
             case webhookPostbackPayload.ourServices:
               return postOurServices(psid);
+            case webhookPostbackPayload.inquiries:
+              return postInquiries(psid);
+            case webhookPostbackPayload.otherInquiry:
+              return postOtherInquiry(psid);
             case webhookPostbackPayload.goBack:
               return postWelcome(psid);
           }
