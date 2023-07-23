@@ -5,6 +5,7 @@ import {
   postInquiries,
   postOtherInquiry,
   postOurServices,
+  postScheduleMeeting,
   postWelcome,
   webhookPostbackPayload,
 } from '../utils/webhook';
@@ -51,6 +52,8 @@ webhookRouter.post('/', async (req, res) => {
               return postOurServices(psid);
             case webhookPostbackPayload.inquiries:
               return postInquiries(psid);
+            case webhookPostbackPayload.scheduleMeeting:
+              return postScheduleMeeting(psid);
             case webhookPostbackPayload.otherInquiry:
               return postOtherInquiry(psid);
             case webhookPostbackPayload.goBack:
