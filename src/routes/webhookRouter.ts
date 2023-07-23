@@ -55,9 +55,9 @@ webhookRouter.post('/', async (req, res) => {
                 return postWelcome(psid);
               case webhookPostbackPayload.aboutUs:
                 return postAboutUs(psid);
-              case webhookPostbackPayload.visitWebsite:
-                return (window.location.href =
-                  'https://lightweightsolutions.co');
+              // case webhookPostbackPayload.visitWebsite:
+              //   return (window.location.href =
+              //     'https://lightweightsolutions.co');
             }
           }
         } catch (error: any) {
