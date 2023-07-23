@@ -38,9 +38,14 @@ app.get('/webhook', (req, res) => {
         data: {
           get_started: {
             payload:
-              'Hi [Name], Welcome to Lightweight Solutions Page! 😊 Please choose from the options below to learn more.',
+              'Hi {{user_first_name}}, Welcome to Lightweight Solutions Page! 😊 Please choose from the options below to learn more.',
           },
-          greeting: 'Hello Greeting!',
+          greeting: [
+            {
+              locale: 'default',
+              text: 'Hello {{user_first_name}}!',
+            },
+          ],
           // persistent_menu: [
           //   {
           //     locale: 'default',
