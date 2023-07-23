@@ -84,24 +84,32 @@ export const postAboutUs = async (psid: string) => {
 };
 
 export const postOurServices = async (psid: string) => {
-  return await api.post('/me/messages', {
-    recipient: {
-      id: psid,
-    },
-    message: {
-      attachment: {
-        type: 'template',
-        payload: {
-          template_type: 'generic',
-          elements: [...Array(5)].map((_, index) => ({
-            title: `Service Title ${index + 1}`,
-            image_url:
-              'https://lightweightsolutions.co/wp-content/uploads/2022/08/lightweight-solutions-software-development-service.png',
-            subtitle:
-              'Donec iaculis, diam ac fringilla hendrerit, leo risus consequat sapien, a maximus tortor sem sed magna. In vestibulum efficitur tincidunt. Sed condimentum convallis urna. Vestibulum varius dignissim ipsum, sed ultricies leo tristique vitae. Duis fringilla a risus non scelerisque. Nulla eu dolor sed velit placerat sagittis eget nec dolor. Morbi.',
-          })),
+  return await api.post(
+    '/me/messages',
+    {
+      recipient: {
+        id: psid,
+      },
+      message: {
+        attachment: {
+          type: 'template',
+          payload: {
+            template_type: 'generic',
+            elements: [...Array(5)].map((_, index) => ({
+              title: `Service Title ${index + 1}`,
+              image_url:
+                'https://lightweightsolutions.co/wp-content/uploads/2022/08/lightweight-solutions-software-development-service.png',
+              subtitle:
+                'Donec iaculis, diam ac fringilla hendrerit, leo risus consequat sapien, a maximus tortor sem sed magna. In vestibulum efficitur tincidunt. Sed condimentum convallis urna. Vestibulum varius dignissim ipsum, sed ultricies leo tristique vitae. Duis fringilla a risus non scelerisque. Nulla eu dolor sed velit placerat sagittis eget nec dolor. Morbi.',
+            })),
+          },
         },
       },
     },
-  });
+    {
+      params: {
+        access_token: config.FB_PAGE_ACCESS_TOKEN,
+      },
+    }
+  );
 };
