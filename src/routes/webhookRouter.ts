@@ -12,6 +12,8 @@ webhookRouter.post('/', async (req, res) => {
       entry.messaging.forEach(async (event: any) => {
         const psid = event.sender.id;
 
+        console.log(event.sender);
+
         api.post(
           `/me/messages`,
           {
@@ -20,10 +22,27 @@ webhookRouter.post('/', async (req, res) => {
             },
             message: {
               attachment: {
-                type: 'image',
+                type: 'template',
                 payload: {
-                  url: 'https://images.unsplash.com/photo-1689427190696-3391324b1ef3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
-                  is_reusable: true,
+                  template_type: 'button',
+                  text: `Hi {{user_first_name}}, Welcome to Lightweight Solutions Page! 😊 Please choose from the options below to learn more.`,
+                  buttons: [
+                    {
+                      type: 'postback',
+                      title: 'About Us',
+                      payload: 'about_us',
+                    },
+                    {
+                      type: 'postback',
+                      title: 'Our Services',
+                      payload: 'our_services',
+                    },
+                    {
+                      type: 'postback',
+                      title: 'Inquiry',
+                      payload: 'inquiry',
+                    },
+                  ],
                 },
               },
             },
@@ -53,27 +72,7 @@ webhookRouter.get('/', async (req, res) => {
       res.sendStatus(403);
     }
 
-    try {
-      await api.post(
-        '/me/messenger_profile',
-        {
-          greeting: [
-            {
-              locale: 'default',
-              text: 'Hi {{user_first_name}}, Welcome to Lightweight Solutions Page! 😊 Please choose from the options below to learn more.',
-            },
-          ],
-        },
-        {
-          params: {
-            access_token: config.FB_PAGE_ACCESS_TOKEN,
-          },
-        }
-      );
-      res.send(challenge);
-    } catch (error) {
-      console.log(error);
-    }
+    res.send(challenge);
   }
 });
 
