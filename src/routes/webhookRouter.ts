@@ -1,7 +1,11 @@
 import { Router } from 'express';
 import config from '../utils/config';
 import api from '../utils/api';
-import { postAboutUs, postWelcome } from '../utils/webhook';
+import {
+  postAboutUs,
+  postWelcome,
+  webhookPostbackPayload,
+} from '../utils/webhook';
 
 const webhookRouter = Router();
 
@@ -49,8 +53,10 @@ webhookRouter.post('/', async (req, res) => {
           postWelcome(psid);
         } else if (event?.postback) {
           switch (event?.postback?.payload) {
-            case 'about_us':
+            case webhookPostbackPayload.aboutUs:
               return postAboutUs(psid);
+            case webhookPostbackPayload.goBack:
+              return postWelcome(psid);
           }
         }
       });
