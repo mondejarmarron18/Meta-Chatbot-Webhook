@@ -53,7 +53,27 @@ webhookRouter.get('/', async (req, res) => {
       res.sendStatus(403);
     }
 
-    res.send(challenge);
+    try {
+      await api.post(
+        '/me/messenger_profile',
+        {
+          greeting: [
+            {
+              locale: 'default',
+              text: 'Hi {{user_first_name}}, Welcome to Lightweight Solutions Page! 😊 Please choose from the options below to learn more.',
+            },
+          ],
+        },
+        {
+          params: {
+            access_token: config.FB_PAGE_ACCESS_TOKEN,
+          },
+        }
+      );
+      res.send(challenge);
+    } catch (error) {
+      console.log(error);
+    }
   }
 });
 
