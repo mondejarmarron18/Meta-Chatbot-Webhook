@@ -41,45 +41,47 @@ webhookRouter.post('/', async (req, res) => {
       entry.messaging.forEach(async (event: any) => {
         const psid = event.sender.id;
 
-        await api.post(
-          `/me/messages`,
-          {
-            recipient: {
-              id: psid,
-            },
-            message: {
-              attachment: {
-                type: 'template',
-                payload: {
-                  template_type: 'button',
-                  text: `Hi ${event?.postback}, Welcome to Lightweight Solutions Page! 😊 Please choose from the options below to learn more.`,
-                  buttons: [
-                    {
-                      type: 'postback',
-                      title: 'About Us',
-                      payload: 'about_us',
-                    },
-                    {
-                      type: 'postback',
-                      title: 'Our Services',
-                      payload: 'our_services',
-                    },
-                    {
-                      type: 'postback',
-                      title: 'Inquiry',
-                      payload: 'inquiry',
-                    },
-                  ],
-                },
-              },
-            },
-          },
-          {
-            params: {
-              access_token: config.FB_PAGE_ACCESS_TOKEN,
-            },
-          }
-        );
+        console.log(event);
+
+        // await api.post(
+        //   `/me/messages`,
+        //   {
+        //     recipient: {
+        //       id: psid,
+        //     },
+        //     message: {
+        //       attachment: {
+        //         type: 'template',
+        //         payload: {
+        //           template_type: 'button',
+        //           text: `Hi ${event?.postback}, Welcome to Lightweight Solutions Page! 😊 Please choose from the options below to learn more.`,
+        //           buttons: [
+        //             {
+        //               type: 'postback',
+        //               title: 'About Us',
+        //               payload: 'about_us',
+        //             },
+        //             {
+        //               type: 'postback',
+        //               title: 'Our Services',
+        //               payload: 'our_services',
+        //             },
+        //             {
+        //               type: 'postback',
+        //               title: 'Inquiry',
+        //               payload: 'inquiry',
+        //             },
+        //           ],
+        //         },
+        //       },
+        //     },
+        //   },
+        //   {
+        //     params: {
+        //       access_token: config.FB_PAGE_ACCESS_TOKEN,
+        //     },
+        //   }
+        // );
       });
     });
 
