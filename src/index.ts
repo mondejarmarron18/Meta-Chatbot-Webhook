@@ -31,45 +31,49 @@ app.get('/webhook', (req, res) => {
       // Respond with the challenge token from the request
       res.status(200).send(challenge);
 
-      axios.post(`${baseURL}/me/messenger_profile`, {
-        params: {
-          access_token: config.FB_PAGE_ACCESS_TOKEN,
-        },
-        data: {
-          get_started: {
-            payload: 'greeting',
+      try {
+        axios.post(`${baseURL}/me/messenger_profile`, {
+          params: {
+            access_token: config.FB_PAGE_ACCESS_TOKEN,
           },
-          greeting: [
-            {
-              locale: 'default',
-              text: 'Hi {{user_first_name}}, Welcome to Lightweight Solutions Page! 😊 Please choose from the options below to learn more.',
+          data: {
+            get_started: {
+              payload: 'greeting',
             },
-          ],
-          // persistent_menu: [
-          //   {
-          //     locale: 'default',
-          //     composer_input_disabled: false,
-          //     call_to_actions: [
-          //       {
-          //         type: 'postback',
-          //         title: 'Restart Bot',
-          //         payload: 'restart',
-          //       },
-          //       {
-          //         type: 'postback',
-          //         title: 'Read Full Mechanics',
-          //         payload: 'mechanics',
-          //       },
-          //       {
-          //         type: 'postback',
-          //         title: 'Send an Inquiry',
-          //         payload: 'inquiries',
-          //       },
-          //     ],
-          //   },
-          // ],
-        },
-      });
+            greeting: [
+              {
+                locale: 'default',
+                text: 'Hi {{user_first_name}}, Welcome to Lightweight Solutions Page! 😊 Please choose from the options below to learn more.',
+              },
+            ],
+            persistent_menu: [
+              {
+                locale: 'default',
+                composer_input_disabled: false,
+                call_to_actions: [
+                  {
+                    type: 'postback',
+                    title: 'Restart Bot',
+                    payload: 'restart',
+                  },
+                  {
+                    type: 'postback',
+                    title: 'Read Full Mechanics',
+                    payload: 'mechanics',
+                  },
+                  {
+                    type: 'postback',
+                    title: 'Send an Inquiry',
+                    payload: 'inquiries',
+                  },
+                ],
+              },
+            ],
+          },
+        });
+      } catch (error) {
+        res.send(error);
+      }
     } else {
       // Respond with '403 Forbidden' if verify tokens do not match
       res.sendStatus(403);
