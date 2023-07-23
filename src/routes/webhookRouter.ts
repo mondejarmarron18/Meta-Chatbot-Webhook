@@ -12,7 +12,28 @@ webhookRouter.post('/', async (req, res) => {
       entry.messaging.forEach(async (event: any) => {
         const psid = event.sender.id;
 
-        console.log(event);
+        api.post(
+          `/me/messages`,
+          {
+            recipient: {
+              id: psid,
+            },
+            message: {
+              attachment: {
+                type: 'image',
+                payload: {
+                  url: 'https://images.unsplash.com/photo-1689427190696-3391324b1ef3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+                  is_reusable: true,
+                },
+              },
+            },
+          },
+          {
+            params: {
+              access_token: config.FB_PAGE_ACCESS_TOKEN,
+            },
+          }
+        );
       });
     });
 
