@@ -17,10 +17,10 @@ app.get('/', (req, res) => {
 // Add support for GET requests to our webhook
 app.get('/webhook', async (req, res) => {
   // Parse the query params
-  const mode = req.query['hub.mode'];
-  const token = req.query['hub.verify_token'];
-  const challenge = req.query['hub.challenge'];
-  const body = req.body;
+  let mode = req.query['hub.mode'];
+  let token = req.query['hub.verify_token'];
+  let challenge = req.query['hub.challenge'];
+  let body = req.body;
 
   console.log(body?.entry);
 
@@ -31,18 +31,21 @@ app.get('/webhook', async (req, res) => {
       // Respond with the challenge token from the request
 
       try {
-        await axios.post(`${config.FB_PAGE_ID}/chat_plugin`, {
-          params: {
-            welcome_screen_greeting: 'Hello {{user_first_name}}',
-            access_token: config.FB_PAGE_ACCESS_TOKEN,
-          },
-        });
+        // await axios.post(`${config.FB_PAGE_ID}/chat_plugin`, {
+        //   params: {
+        //     welcome_screen_greeting: 'Hello {{user_first_name}}',
+        //     access_token: config.FB_PAGE_ACCESS_TOKEN,
+        //   },
+        // });
 
         await axios.post(`${baseURL}/me/messenger_profile`, {
           params: {
             access_token: config.FB_PAGE_ACCESS_TOKEN,
           },
           data: {
+            whitelisted_domains: [
+              'https://lws-fb-chat-1c47aa033775.herokuapp.com',
+            ],
             get_started: {
               payload: 'greeting',
             },
@@ -84,66 +87,11 @@ app.get('/webhook', async (req, res) => {
       }
     } else {
       // Respond with '403 Forbidden' if verify tokens do not match
+      console.log('Error with status 403');
       res.sendStatus(403);
     }
-  }
-});
-
-app.get('/conversations', async (req, res) => {
-  try {
-    const result = await axios.get(
-      `${baseURL}/${config.FB_PAGE_ID}/conversations`,
-      {
-        params: {
-          fields: 'participants',
-          access_token: config.FB_PAGE_ACCESS_TOKEN,
-        },
-      }
-    );
-
-    res.send(await result.data);
-  } catch (error) {
-    res.send(error);
-  }
-});
-
-app.get('/conversations/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const result = await axios.get(`${baseURL}/${id}`, {
-      params: {
-        fields: 'messages{message}',
-        access_token: config.FB_PAGE_ACCESS_TOKEN,
-      },
-    });
-    const data = await result.data;
-
-    res.send(data);
-  } catch (error) {
-    res.send(error);
-  }
-});
-
-app.post('/conversations/:psid', async (req, res) => {
-  try {
-    const { psid } = req.params;
-    const body = req.body;
-
-    const result = await axios.post(
-      `${baseURL}/${config.FB_PAGE_ID}/messages`,
-      {
-        params: {
-          recipient: { id: psid },
-          message: { text: body?.message },
-          messaging_type: 'RESPONSE',
-          access_token: config.FB_PAGE_ACCESS_TOKEN,
-        },
-      }
-    );
-
-    res.send(result);
-  } catch (error) {
-    res.send(error);
+  } else {
+    console.log('FAiled');
   }
 });
 
