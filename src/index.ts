@@ -29,8 +29,43 @@ app.get('/webhook', (req, res) => {
     // Check the mode and token sent is correct
     if (mode === 'subscribe' && token === config.FB_VERIFY_TOKEN) {
       // Respond with the challenge token from the request
-      console.log('WEBHOOK_VERIFIED');
       res.status(200).send(challenge);
+
+      axios.post(`${baseURL}/me/messenger_profile`, {
+        params: {
+          access_token: config.FB_PAGE_ACCESS_TOKEN,
+        },
+        data: {
+          get_started: {
+            payload:
+              'Hi [Name], Welcome to Lightweight Solutions Page! 😊 Please choose from the options below to learn more.',
+          },
+          greeting: 'Hello Greeting!',
+          // persistent_menu: [
+          //   {
+          //     locale: 'default',
+          //     composer_input_disabled: false,
+          //     call_to_actions: [
+          //       {
+          //         type: 'postback',
+          //         title: 'Restart Bot',
+          //         payload: 'restart',
+          //       },
+          //       {
+          //         type: 'postback',
+          //         title: 'Read Full Mechanics',
+          //         payload: 'mechanics',
+          //       },
+          //       {
+          //         type: 'postback',
+          //         title: 'Send an Inquiry',
+          //         payload: 'inquiries',
+          //       },
+          //     ],
+          //   },
+          // ],
+        },
+      });
     } else {
       // Respond with '403 Forbidden' if verify tokens do not match
       res.sendStatus(403);
