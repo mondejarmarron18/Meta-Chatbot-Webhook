@@ -52,22 +52,6 @@ export const postWelcome = async (psid: string) => {
 };
 
 export const postAboutUs = async (psid: string) => {
-  await api.post(
-    `/${config.FB_PAGE_ID}/messages`,
-    {
-      recipient: {
-        id: psid,
-      },
-      messaging_type: 'RESPONSE',
-      message: {
-        text: 'Lightweight Solutions founded in 2008 is an expert in the field of IT and has worked with many multinational and leading enterprises in the country.\n\nThe company has developed innovations, software solutions and technology products in the areas of healthcare, finance, FMCG, real estate, education, entertainment and electrification among others.\n\nWe envision a world that is smarter, better and more enjoyable through simplified technology while making it sustainable for future generations as well. We believe in innovations and smart solutions that create valuable impact to improve lifestyle and businesses while making a better world.\n\nWe simplify technology for you. Let us help you reach your goals.\n\nLet us build a smart and sustainable world TOGETHER.',
-      },
-    },
-    {
-      params: { access_token: config.FB_PAGE_ACCESS_TOKEN },
-    }
-  );
-
   return await api.post(
     `/me/messages`,
     {
@@ -76,7 +60,7 @@ export const postAboutUs = async (psid: string) => {
       },
       messaging_type: 'RESPONSE',
       message: {
-        text: '',
+        text: 'Lightweight Solutions founded in 2008 is an expert in the field of IT and has worked with many multinational and leading enterprises in the country.\n\nThe company has developed innovations, software solutions and technology products in the areas of healthcare, finance, FMCG, real estate, education, entertainment and electrification among others.\n\nWe envision a world that is smarter, better and more enjoyable through simplified technology while making it sustainable for future generations as well.',
         quick_replies: [
           {
             content_type: 'text',
