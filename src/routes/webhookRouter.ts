@@ -55,6 +55,8 @@ webhookRouter.post('/', async (req, res) => {
           switch (event?.postback?.payload) {
             case webhookPostbackPayload.aboutUs:
               return postAboutUs(psid);
+            case webhookPostbackPayload.visitWebsite:
+              return (window.location.href = 'https://lightweightsolutions.co');
             case webhookPostbackPayload.goBack:
               return postWelcome(psid);
           }
