@@ -41,7 +41,8 @@ webhookRouter.post('/', async (req, res) => {
       entry.messaging.forEach(async (event: any) => {
         const psid = event.sender.id;
 
-        console.log(event);
+        console.log('Message', event.message);
+        console.log('Payload', event.payload);
 
         if (event.message) {
           await api.post(
@@ -84,7 +85,7 @@ webhookRouter.post('/', async (req, res) => {
             }
           );
         } else if (event.postback) {
-          switch (event?.payload) {
+          switch (event.payload) {
             case 'about_us':
               return await api.post(
                 `/me/messages`,
