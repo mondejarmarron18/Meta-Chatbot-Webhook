@@ -34,13 +34,7 @@ webhookRouter.post('/', async (req, res) => {
 
         if (event?.message) {
           if (event.message?.quick_reply) {
-            console.log(event.message);
-            switch (event.quick_reply?.payload) {
-              case webhookPostbackPayload.goBack:
-                return postWelcome(psid);
-              case webhookPostbackPayload.visitWebsite:
-                return res.redirect(302, 'https://lightweightsolutions.co');
-            }
+            console.log(event.message.quick_reply);
           } else {
             postWelcome(psid);
           }
@@ -50,6 +44,8 @@ webhookRouter.post('/', async (req, res) => {
               return postAboutUs(psid);
             case webhookPostbackPayload.ourServices:
               return postOurServices(psid);
+            case webhookPostbackPayload.goBack:
+              return postWelcome(psid);
           }
         }
       });
