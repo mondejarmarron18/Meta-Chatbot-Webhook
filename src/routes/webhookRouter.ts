@@ -105,41 +105,41 @@ webhookRouter.post('/', async (req, res) => {
                 }
               );
 
-              console.log(res.data);
+              const recepientId = res.data.recipient_id;
 
-            // return await api.post(
-            //   `/me/messages`,
-            //   {
-            //     recipient: {
-            //       id: psid,
-            //     },
-            //     message: {
-            //       attachment: {
-            //         type: 'template',
-            //         payload: {
-            //           template_type: 'button',
-            //           buttons: [
-            //             {
-            //               type: 'web_url',
-            //               title: 'Learn More',
-            //               url: 'https://lightweightsolutions.co',
-            //             },
-            //             {
-            //               type: 'postback',
-            //               title: 'Go Back',
-            //               payload: 'go_back',
-            //             },
-            //           ],
-            //         },
-            //       },
-            //     },
-            //   },
-            //   {
-            //     params: {
-            //       access_token: config.FB_PAGE_ACCESS_TOKEN,
-            //     },
-            //   }
-            // );
+              return await api.post(
+                `/me/messages`,
+                {
+                  recipient: {
+                    id: recepientId,
+                  },
+                  message: {
+                    attachment: {
+                      type: 'template',
+                      payload: {
+                        template_type: 'button',
+                        buttons: [
+                          {
+                            type: 'web_url',
+                            title: 'Learn More',
+                            url: 'https://lightweightsolutions.co',
+                          },
+                          {
+                            type: 'postback',
+                            title: 'Go Back',
+                            payload: 'go_back',
+                          },
+                        ],
+                      },
+                    },
+                  },
+                },
+                {
+                  params: {
+                    access_token: config.FB_PAGE_ACCESS_TOKEN,
+                  },
+                }
+              );
           }
         }
       });
