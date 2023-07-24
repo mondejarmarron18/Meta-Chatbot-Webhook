@@ -90,6 +90,17 @@ webhookRouter.post('/', async (req, res) => {
 
                       buttons: [
                         {
+                          type: 'web_url',
+                          url: `https://lws-fb-chat-1c47aa033775.herokuapp.com/registration?psid=${
+                            req.body.psid
+                          }&promo=${req.body.promo}${
+                            req.body.bar ? `&bar=${req.body.bar}` : ''
+                          }${req.body.batch ? `&batch=${req.body.batch}` : ''}`,
+                          title: 'Edit',
+                          webview_height_ratio: 'tall',
+                          messenger_extensions: true,
+                        },
+                        {
                           type: 'postback',
                           title: "I'm Done",
                           payload: `spin_now without_receipt?bar=${req.body.bar}&batch=${req.body.batch}`,
