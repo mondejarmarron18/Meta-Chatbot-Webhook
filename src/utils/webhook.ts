@@ -255,3 +255,25 @@ export const postScheduleMeeting = async (psid: string) => {
     }
   );
 };
+
+export const postIssuesOrMaintenanceTicket = async (psid: string) => {
+  const id = Math.floor(Math.random() * 899) + 100;
+
+  return await api.post(
+    `${config.FB_PAGE_ID}/messages`,
+    {
+      recipient: {
+        id: psid,
+      },
+      message_type: 'RESPONSE',
+      message: {
+        text: `Thank you for contacting us. Your ticket number for your concerns is: LWS${id}. Our team will be in touch with you within the next 24 hours. For any follow-ups or other concerns, you can also reach us via email at pmteam@lightweightsolutions.me.\n\nWe appreciate your patience and look forward to assisting you further.`,
+      },
+    },
+    {
+      params: {
+        access_token: config.FB_PAGE_ACCESS_TOKEN,
+      },
+    }
+  );
+};

@@ -9,11 +9,10 @@ app.use(express.static('public'));
 app.use(express.json());
 app.use(cors());
 
-app.get('/', (req, res) => {
-  res.send('LWS FB Chat');
-});
-
 app.use('/webhook', webhookRouter);
+app.use('/webview', (req, res) => {
+  res.send('Web View');
+});
 
 app.listen(config.PORT, () => {
   console.log(`Listening to port ${config.PORT}`);
