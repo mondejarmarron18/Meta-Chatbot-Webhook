@@ -11,6 +11,10 @@ export enum ServicesPayload {
   'mobileAppDevelopment' = 'services_mobile_app_development',
   'digitalMarketing' = 'services_digital_marketing',
   'ventureBuilder' = 'services_venture_builder',
+  'chatbotDevelopment' = 'services_chatbot_development',
+  'UIUXDesign' = 'services_ui_ux_design',
+  'ERaffleSystem' = 'services_e_raffle_sytem',
+  'others' = 'services_others',
 }
 
 export const services: Array<TServices> = [
@@ -53,5 +57,37 @@ export const services: Array<TServices> = [
       'Build your business ideas from ground up with the right team. Our team is constantly looking for partners who have a vision and drive for executing a smart business idea. From tech product development to marketing planning and execution, our team will help you bring your business to life.',
     image:
       'https://lightweightsolutions.co/wp-content/uploads/2022/08/lightweight-solutions-venture-builder-service.png',
+  },
+  {
+    payload: ServicesPayload.chatbotDevelopment,
+    title: 'Chatbot Development',
+    description:
+      'Make communicating with your customers smarter and more efficient with Chatbot in messaging apps. We develop chatbots that are easy to integrate with any platform and provide precise responses to customers.',
+    image:
+      'https://lightweightsolutions.co/wp-content/uploads/2022/08/lightweight-solutions-chatbot-development-service.png',
+  },
+  {
+    payload: ServicesPayload.UIUXDesign,
+    title: 'UI/UX Design',
+    description:
+      'UI/UX design is the catalyst behind the success of any web or mobile app. Lightweight Solutions is a leading web design and mobile app design with a knack for turning great ideas into meaningful interactions. Starting from conceptualization, information architecture, visual identity, and UX design; hire UI/UX designers from Lightweight Solutions for timely delivery of appealing websites and mobile apps resulting in maximum user engagement.',
+    image:
+      'https://lightweightsolutions.co/wp-content/uploads/2022/08/lightweight-solutions-ui-ux-design-service.png',
+  },
+  {
+    payload: ServicesPayload.ERaffleSystem,
+    title: 'E-raffle system',
+    description:
+      'Manage your eRaffle promos efficiently and maximize engagement and returns with the eRaffle Management Solutions, used by leading multinational brands. From microsite development, mechanics improvement and automated draws to verification of winners and prize distribution, we got your back. Focus on your goals while we run your raffle for you.',
+    image:
+      'https://lightweightsolutions.co/wp-content/uploads/2022/08/lightweight-solutions-e-raffle-system-service.png',
+  },
+  {
+    payload: ServicesPayload.others,
+    title: 'Others',
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus elementum quam mi. Mauris pharetra volutpat sem, sed vestibulum magna semper ut. Aenean sit amet luctus lectus, eu varius elit. Cras iaculis sem id convallis gravida. Donec nec gravida nulla. Nulla magna neque, sagittis eget libero et, feugiat egestas diam. Nulla ornare sodales lobortis.',
+    image:
+      'https://lightweightsolutions.co/wp-content/uploads/2022/04/lightweight-solutions-logo-black.webp',
   },
 ];
