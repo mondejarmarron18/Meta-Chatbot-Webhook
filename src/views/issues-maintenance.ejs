@@ -3,47 +3,41 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Service</title>
+    <title>Issues/Maintenance</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
   </head>
   <body class="p-5 flex justify-center">
     <form class="max-w-sm w-full flex flex-col gap-3">
       <div class="flex flex-col">
-        <label for="name" class="font-semibold">Service</label>
+        <label for="clientName" class="font-semibold">Client Name</label>
         <input
           class="text-sm font-medium rounded"
           type="text"
-          name="serviceName"
-          value="<%= serviceTitle %>"
+          name="clientName"
         />
       </div>
       <div class="flex flex-col">
-        <label for="name" class="font-semibold">Name</label>
-        <input class="text-sm font-medium rounded" type="text" name="name" />
+        <label for="emailAddress" class="font-semibold">Email Address</label>
+        <input
+          class="text-sm font-medium rounded"
+          type="email"
+          name="emailAddress"
+        />
       </div>
       <div class="flex flex-col">
-        <label for="companyName" class="font-semibold">Company Name</label>
+        <label for="projectName" class="font-semibold">Project Name</label>
         <input
           class="text-sm font-medium rounded"
           type="text"
-          name="companyName"
+          name="projectName"
         />
       </div>
       <div class="flex flex-col">
-        <label for="designation" class="font-semibold">Designation</label>
-        <input
-          class="text-sm font-medium rounded"
-          type="text"
-          name="designation"
-        />
-      </div>
-      <div class="flex flex-col">
-        <label for="email" class="font-semibold">Email</label>
-        <input class="text-sm font-medium rounded" type="email" name="email" />
-      </div>
-      <div class="flex flex-col">
-        <label for="phone" class="font-semibold">Mobile Number</label>
-        <input class="text-sm font-medium rounded" type="phone" name="phone" />
+        <label for="projectStatus" class="font-semibold">Project Status</label>
+        <select class="text-sm font-medium rounded" name="projectStatus" id="">
+          <option value="on-going">Ongoing</option>
+          <option value="maintenance">Maintenance</option>
+        </select>
       </div>
       <div class="flex flex-col">
         <label for="conernsAndInquiry" class="font-semibold"

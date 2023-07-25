@@ -1,4 +1,5 @@
 type TServices = {
+  id: number;
   title: string;
   description: string;
   image: string;
@@ -19,6 +20,7 @@ export enum ServicesPayload {
 
 export const services: Array<TServices> = [
   {
+    id: 1,
     payload: ServicesPayload.softwareDevelopment,
     title: 'Software Development',
     description:
@@ -27,6 +29,7 @@ export const services: Array<TServices> = [
       'https://lightweightsolutions.co/wp-content/uploads/2022/08/lightweight-solutions-software-development-service.png',
   },
   {
+    id: 2,
     payload: ServicesPayload.websiteDevelopment,
     title: 'Website Development',
     description:
@@ -35,6 +38,7 @@ export const services: Array<TServices> = [
       'https://lightweightsolutions.co/wp-content/uploads/2022/08/lightweight-solutions-website-development-service.png',
   },
   {
+    id: 3,
     payload: ServicesPayload.mobileAppDevelopment,
     title: 'Mobile App Development',
     description:
@@ -43,6 +47,7 @@ export const services: Array<TServices> = [
       'https://lightweightsolutions.co/wp-content/uploads/2022/08/lightweight-solutions-mobile-app-development-service.png',
   },
   {
+    id: 4,
     payload: ServicesPayload.digitalMarketing,
     title: 'Digital Marketing',
     description:
@@ -51,6 +56,7 @@ export const services: Array<TServices> = [
       'https://lightweightsolutions.co/wp-content/uploads/2022/08/lightweight-solutions-digital-marketing-service.png',
   },
   {
+    id: 5,
     payload: ServicesPayload.ventureBuilder,
     title: 'Venture Builder',
     description:
@@ -59,6 +65,7 @@ export const services: Array<TServices> = [
       'https://lightweightsolutions.co/wp-content/uploads/2022/08/lightweight-solutions-venture-builder-service.png',
   },
   {
+    id: 6,
     payload: ServicesPayload.chatbotDevelopment,
     title: 'Chatbot Development',
     description:
@@ -67,6 +74,7 @@ export const services: Array<TServices> = [
       'https://lightweightsolutions.co/wp-content/uploads/2022/08/lightweight-solutions-chatbot-development-service.png',
   },
   {
+    id: 7,
     payload: ServicesPayload.UIUXDesign,
     title: 'UI/UX Design',
     description:
@@ -75,6 +83,7 @@ export const services: Array<TServices> = [
       'https://lightweightsolutions.co/wp-content/uploads/2022/08/lightweight-solutions-ui-ux-design-service.png',
   },
   {
+    id: 8,
     payload: ServicesPayload.ERaffleSystem,
     title: 'E-raffle system',
     description:
@@ -83,6 +92,7 @@ export const services: Array<TServices> = [
       'https://lightweightsolutions.co/wp-content/uploads/2022/08/lightweight-solutions-e-raffle-system-service.png',
   },
   {
+    id: 9,
     payload: ServicesPayload.others,
     title: 'Others',
     description:

@@ -140,7 +140,7 @@ export const postOurServices = async (psid: string) => {
                 {
                   type: 'web_url',
                   title: 'Inquire',
-                  url: `${config.FB_WEBVIEW_URL}/service?service_payload=${service.payload}`,
+                  url: `${config.FB_WEBVIEW_URL}/${service.id}`,
                   webview_height_ratio: 'tall',
                   messenger_extensions: true,
                 },
@@ -178,9 +178,11 @@ export const postInquiries = async (psid: string) => {
                 payload: webhookPayload.scheduleMeeting,
               },
               {
-                type: 'postback',
+                type: 'web_url',
                 title: 'Issues/Maintenance',
-                payload: webhookPayload.issuesOrMaintenance,
+                url: `${config.FB_WEBVIEW_URL}/issues-maintenance`,
+                webview_height_ratio: 'tall',
+                messenger_extensions: true,
               },
               {
                 type: 'postback',
