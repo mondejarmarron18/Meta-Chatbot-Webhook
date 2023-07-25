@@ -9,7 +9,6 @@ import {
   postScheduleMeeting,
   postWelcome,
 } from '../utils/webhook';
-import api from '../utils/api';
 import webhookPayload from '../utils/webhookPayload';
 
 const webhookRouter = Router();
@@ -52,6 +51,8 @@ webhookRouter.post('/', async (req, res) => {
         switch (event.postback?.payload) {
           case webhookPayload.getStarted:
             return postGetStarted();
+          case webhookPayload.goBack:
+            return postWelcome(psid);
           case webhookPayload.aboutUs:
             return postAboutUs(psid);
           case webhookPayload.ourServices:
@@ -62,8 +63,6 @@ webhookRouter.post('/', async (req, res) => {
             return postScheduleMeeting(psid);
           case webhookPayload.otherInquiry:
             return postOtherInquiry(psid);
-          case webhookPayload.goBack:
-            return postWelcome(psid);
         }
       }
     });

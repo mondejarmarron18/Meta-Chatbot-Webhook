@@ -139,10 +139,9 @@ export const postOurServices = async (psid: string) => {
               buttons: [
                 {
                   type: 'web_url',
-                  title: 'Inquire Service',
-                  url: `${config.FB_WEBVIEW_URL}/ticket.html`,
-                  webview_height_ratio: 'tall',
-                  messenger_extension: true,
+                  title: 'Inquire',
+                  url: `${config.FB_WEBVIEW_URL}/service.html?service_payload=${service.payload}`,
+                  messenger_extensions: true,
                 },
               ],
             })),
