@@ -142,7 +142,7 @@ export const postOurServices = async (psid: string) => {
                   title: 'Inquire',
                   url: `${config.FB_WEBVIEW_URL}/service?service_payload=${service.payload}`,
                   webview_height_ratio: 'tall',
-                  messenger_extension: true,
+                  messenger_extensions: true,
                 },
               ],
             })),
