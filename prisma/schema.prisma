@@ -10,11 +10,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model tickets {
-  id                  Int    @id @default(autoincrement())
-  client_name         String
-  client_email        String
-  project_name        String
-  project_status      String
-  issues_and_concerns String
+model ticket {
+  id                Int      @id @default(autoincrement())
+  ticketNumber      String   @unique @default(uuid())
+  clientName        String
+  clientEmail       String
+  projectName       String
+  projectStatus     String
+  issuesAndConcerns String
+  createdAt         DateTime @default(now())
 }

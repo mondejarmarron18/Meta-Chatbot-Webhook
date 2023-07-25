@@ -1,25 +1,14 @@
 import api from './api';
 import config from './config';
 import { services } from './data/services';
-
-export enum webhookPostbackPayload {
-  'getStarted' = 'get_started',
-  'aboutUs' = 'about_us',
-  'ourServices' = 'our_services',
-  'inquiries' = 'inquiries',
-  'goBack' = 'go_back',
-  'visitWebsite' = 'visit_website',
-  'scheduleMeeting' = 'schedule_meeting',
-  'issuesOrMaintenance' = 'issues_or_maintenance',
-  'otherInquiry' = 'other_inquiry',
-}
+import webhookPayload from './webhookPayload';
 
 export const postGetStarted = async () => {
   return await api.post(
     '/me/messenger_profile',
     {
       whitelisted_domains: 'https://lws-fb-chat-1c47aa033775.herokuapp.com',
-      get_started: { payload: webhookPostbackPayload.getStarted },
+      get_started: { payload: webhookPayload.getStarted },
     },
     {
       params: {
@@ -69,17 +58,17 @@ export const postWelcome = async (psid: string) => {
               {
                 type: 'postback',
                 title: 'About Us',
-                payload: webhookPostbackPayload.aboutUs,
+                payload: webhookPayload.aboutUs,
               },
               {
                 type: 'postback',
                 title: 'Our Services',
-                payload: webhookPostbackPayload.ourServices,
+                payload: webhookPayload.ourServices,
               },
               {
                 type: 'postback',
                 title: 'Inquiry',
-                payload: webhookPostbackPayload.inquiries,
+                payload: webhookPayload.inquiries,
               },
             ],
           },
@@ -116,7 +105,7 @@ export const postAboutUs = async (psid: string) => {
               {
                 type: 'postback',
                 title: 'Go Back',
-                payload: webhookPostbackPayload.goBack,
+                payload: webhookPayload.goBack,
               },
             ],
           },
@@ -149,9 +138,11 @@ export const postOurServices = async (psid: string) => {
               image_url: service.image,
               buttons: [
                 {
-                  type: 'postback',
+                  type: 'web_url',
                   title: 'Inquire Service',
-                  payload: service.payload,
+                  url: `${config.FB_WEBVIEW_URL}/ticket.html`,
+                  webview_height_ratio: 'tall',
+                  messenger_extension: true,
                 },
               ],
             })),
@@ -184,17 +175,17 @@ export const postInquiries = async (psid: string) => {
               {
                 type: 'postback',
                 title: 'Schedule a Meeting',
-                payload: webhookPostbackPayload.scheduleMeeting,
+                payload: webhookPayload.scheduleMeeting,
               },
               {
                 type: 'postback',
                 title: 'Issues/Maintenance',
-                payload: webhookPostbackPayload.issuesOrMaintenance,
+                payload: webhookPayload.issuesOrMaintenance,
               },
               {
                 type: 'postback',
                 title: 'Other Inquiry',
-                payload: webhookPostbackPayload.otherInquiry,
+                payload: webhookPayload.otherInquiry,
               },
             ],
           },
@@ -243,7 +234,7 @@ export const postScheduleMeeting = async (psid: string) => {
           {
             content_type: 'text',
             title: 'Go Back',
-            payload: webhookPostbackPayload.goBack,
+            payload: webhookPayload.goBack,
           },
         ],
       },
