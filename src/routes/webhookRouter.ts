@@ -44,7 +44,7 @@ webhookRouter.post("/", async (req, res) => {
   //   }
   // }
 
-  await postGetStarted();
+  const response = await postGetStarted();
 
   // body.entry.forEach((entry: any) => {
   //   entry.messaging.forEach((event: any) => {
@@ -81,6 +81,7 @@ webhookRouter.post("/", async (req, res) => {
   //   });
   // });
 
+  console.log(response.data);
   res.status(200).send("EVENT_RECEIVED");
 });
 
