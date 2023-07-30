@@ -51,7 +51,7 @@ webhookRouter.get("/", async (req, res) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          whitelisted_domains: [process.env.APP_WEBVIEW],
+          whitelisted_domains: [config.FB_WEBVIEW_URL],
           get_started: {
             payload: "greeting",
           },
