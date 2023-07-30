@@ -33,51 +33,53 @@ webhookRouter.post("/", async (req, res) => {
 
   if (body.object !== "page") return res.sendStatus(404);
 
-  if (body.entry[0].changes && body.entry[0].changes[0].field === "feed") {
-    try {
-      await postGetStarted();
+  // if (body.entry[0].changes && body.entry[0].changes[0].field === "feed") {
+  //   try {
+  //     await postGetStarted();
 
-      return res.status(200).send("EVENT_RECEIVED");
-    } catch (error) {
-      console.log(error);
-      return res.sendStatus(500);
-    }
-  }
+  //     return res.status(200).send("EVENT_RECEIVED");
+  //   } catch (error) {
+  //     console.log(error);
+  //     return res.sendStatus(500);
+  //   }
+  // }
 
-  body.entry.forEach((entry: any) => {
-    entry.messaging.forEach((event: any) => {
-      const psid = event.sender.id;
-      console.log(entry, event);
+  await postGetStarted();
 
-      if (event?.message) {
-        if (event.message?.quick_reply) {
-          switch (event.message.quick_reply?.payload) {
-            case webhookPayload.goBack:
-              return postWelcome(psid);
-          }
-        } else {
-          postWelcome(psid);
-        }
-      } else if (event?.postback) {
-        switch (event.postback?.payload) {
-          case webhookPayload.getStarted:
-            return postGetStarted();
-          case webhookPayload.goBack:
-            return postWelcome(psid);
-          case webhookPayload.aboutUs:
-            return postAboutUs(psid);
-          case webhookPayload.ourServices:
-            return postOurServices(psid);
-          case webhookPayload.inquiries:
-            return postInquiries(psid);
-          case webhookPayload.scheduleMeeting:
-            return postScheduleMeeting(psid);
-          case webhookPayload.otherInquiry:
-            return postOtherInquiry(psid);
-        }
-      }
-    });
-  });
+  // body.entry.forEach((entry: any) => {
+  //   entry.messaging.forEach((event: any) => {
+  //     const psid = event.sender.id;
+  //     console.log(entry, event);
+
+  //     if (event?.message) {
+  //       if (event.message?.quick_reply) {
+  //         switch (event.message.quick_reply?.payload) {
+  //           case webhookPayload.goBack:
+  //             return postWelcome(psid);
+  //         }
+  //       } else {
+  //         postWelcome(psid);
+  //       }
+  //     } else if (event?.postback) {
+  //       switch (event.postback?.payload) {
+  //         case webhookPayload.getStarted:
+  //           return postGetStarted();
+  //         case webhookPayload.goBack:
+  //           return postWelcome(psid);
+  //         case webhookPayload.aboutUs:
+  //           return postAboutUs(psid);
+  //         case webhookPayload.ourServices:
+  //           return postOurServices(psid);
+  //         case webhookPayload.inquiries:
+  //           return postInquiries(psid);
+  //         case webhookPayload.scheduleMeeting:
+  //           return postScheduleMeeting(psid);
+  //         case webhookPayload.otherInquiry:
+  //           return postOtherInquiry(psid);
+  //       }
+  //     }
+  //   });
+  // });
 
   res.status(200).send("EVENT_RECEIVED");
 });
