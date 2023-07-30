@@ -47,7 +47,7 @@ webhookRouter.post("/", async (req, res) => {
   body.entry.forEach((entry: any) => {
     entry.messaging.forEach((event: any) => {
       const psid = event.sender.id;
-      console.log(entry, event);
+      console.log(event);
 
       if (event?.message) {
         if (event.message?.quick_reply) {
