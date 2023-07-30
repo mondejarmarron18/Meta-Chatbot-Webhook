@@ -10,7 +10,6 @@ import {
   postGreeting,
 } from "../utils/webhook";
 import webhookPayload from "../utils/webhookPayload";
-import api from "../utils/api";
 
 const webhookRouter = Router();
 
@@ -33,16 +32,12 @@ webhookRouter.post("/", async (req, res) => {
 
   if (body.object !== "page") return res.sendStatus(404);
 
-  if (
-    body.entry?.[0]?.changes &&
-    body.entry?.[0]?.changes?.[0]?.field === "feed"
-  ) {
+  if (body.entry[0].changes && body.entry[0].changes[0].field === "feed") {
     try {
       await postGetStarted();
 
       return res.status(200).send("EVENT_RECEIVED");
     } catch (error) {
-      console.log(error);
       return res.sendStatus(500);
     }
   }
@@ -50,7 +45,6 @@ webhookRouter.post("/", async (req, res) => {
   body.entry.forEach((entry: any) => {
     entry.messaging.forEach((event: any) => {
       const psid = event.sender.id;
-      console.log(event);
 
       if (event?.message) {
         if (event.message?.quick_reply) {
