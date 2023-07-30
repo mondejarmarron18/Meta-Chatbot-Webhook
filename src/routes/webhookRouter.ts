@@ -56,6 +56,10 @@ webhookRouter.post("/", async (req, res) => {
               return postGreeting(psid);
           }
         }
+
+        if (event.message?.text === "menu") {
+          return postGreeting(psid);
+        }
       } else if (event?.postback) {
         switch (event.postback?.payload) {
           case webhookPayload.getStarted:
