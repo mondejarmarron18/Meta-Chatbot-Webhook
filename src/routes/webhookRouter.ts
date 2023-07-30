@@ -27,6 +27,7 @@ webhookRouter.get("/", async (req, res) => {
     await api.post(
       "/me/messenger_profile",
       {
+        get_started: { payload: "get_started" },
         greeting: [
           {
             locale: "default",
@@ -53,6 +54,7 @@ webhookRouter.post("/", async (req, res) => {
   body.entry.forEach((entry: any) => {
     entry.messaging.forEach((event: any) => {
       const psid = event.sender.id;
+      console.log(entry, event);
 
       if (event?.message) {
         if (event.message?.quick_reply) {
