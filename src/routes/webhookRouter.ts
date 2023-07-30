@@ -56,8 +56,7 @@ webhookRouter.post("/", async (req, res) => {
       } else if (event?.postback) {
         switch (event.postback?.payload) {
           case webhookPayload.getStarted:
-            return console.log(event.sender);
-          // return postGreeting(psid);
+            return postGreeting(event.sender.user_ref);
           case webhookPayload.goBack:
             return postGreeting(psid);
           case webhookPayload.aboutUs:
