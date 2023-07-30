@@ -1,4 +1,4 @@
-import 'dotenv/config';
+import "dotenv/config";
 
 const config = {
   PORT: process.env.PORT,
@@ -7,6 +7,7 @@ const config = {
   FB_PAGE_ACCESS_TOKEN: process.env.FB_PAGE_ACCESS_TOKEN,
   FB_VERIFY_TOKEN: process.env.FB_VERIFY_TOKEN,
   FB_WEBVIEW_URL: process.env.FB_WEBVIEW_URL,
+  SENDGRID_API_KEY: process.env.SENDGRID_API_KEY,
 };
 
 export default config;

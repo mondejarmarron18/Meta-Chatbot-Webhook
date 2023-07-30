@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
   </head>
   <body class="p-5 m-0 flex justify-center">
-    <form class="max-w-md w-full flex flex-col gap-3">
+    <form class="max-w-md w-full flex flex-col gap-3" action="post">
       <div class="flex flex-col">
         <label for="name" class="font-semibold">Service</label>
         <input
@@ -15,11 +15,17 @@
           type="text"
           name="serviceName"
           value="<%= serviceTitle %>"
+          required
         />
       </div>
       <div class="flex flex-col">
         <label for="name" class="font-semibold">Name</label>
-        <input class="text-sm font-medium rounded" type="text" name="name" />
+        <input
+          class="text-sm font-medium rounded"
+          type="text"
+          name="name"
+          required
+        />
       </div>
       <div class="flex flex-col">
         <label for="companyName" class="font-semibold">Company Name</label>
@@ -27,6 +33,7 @@
           class="text-sm font-medium rounded"
           type="text"
           name="companyName"
+          required
         />
       </div>
       <div class="flex flex-col">
@@ -35,15 +42,26 @@
           class="text-sm font-medium rounded"
           type="text"
           name="designation"
+          required
         />
       </div>
       <div class="flex flex-col">
         <label for="email" class="font-semibold">Email</label>
-        <input class="text-sm font-medium rounded" type="email" name="email" />
+        <input
+          class="text-sm font-medium rounded"
+          type="email"
+          name="email"
+          required
+        />
       </div>
       <div class="flex flex-col">
         <label for="phone" class="font-semibold">Mobile Number</label>
-        <input class="text-sm font-medium rounded" type="phone" name="phone" />
+        <input
+          class="text-sm font-medium rounded"
+          type="text"
+          name="phone"
+          required
+        />
       </div>
       <div class="flex flex-col">
         <label for="conernsAndInquiry" class="font-semibold"
@@ -52,14 +70,64 @@
         <textarea
           class="text-sm font-medium rounded"
           name="conernsAndInquiry"
+          required
         ></textarea>
       </div>
-      <button
-        type="button"
-        class="p-2 bg-[#DD3538] rounded mt-5 text-white font-semibold"
-      >
+      <button class="p-2 bg-[#DD3538] rounded mt-5 text-white font-semibold">
         Submit
       </button>
+      <div
+        id="statusPassed"
+        class="p-5 bg-green-200 text-center font-semibold"
+        hidden
+      >
+        Inquiry Sent!
+      </div>
+      <div
+        id="statusFailed"
+        class="p-5 bg-red-200 text-center font-semibold"
+        hidden
+      >
+        Sending Inquirty Failed
+      </div>
     </form>
   </body>
+
+  <script>
+    // Get the form element
+    const form = document.querySelector("form");
+    const statusPassed = document.getElementById("statusPassed");
+    const statusFailed = document.getElementById("statusFailed");
+
+    // Add a form submission event listener
+    form.addEventListener("submit", (event) => {
+      event.preventDefault(); // Prevent the default form submission
+
+      // Get the form data as a URL-encoded string
+      const formData = new URLSearchParams(new FormData(form));
+
+      fetch("/inquiries", {
+        method: "POST",
+        body: formData,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      })
+        .then((res) => {
+          if (res.status === 200) {
+            form.reset();
+            statusFailed.hidden = true;
+            statusPassed.hidden = false;
+          } else {
+            statusFailed.hidden = false;
+            statusPassed.hidden = true;
+          }
+        })
+        .catch((error) => {
+          statusFailed.hidden = false;
+          statusPassed.hidden = true;
+          console.error("Error:", error);
+        });
+    });
+  </script>
 </html>
