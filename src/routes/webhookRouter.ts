@@ -1,5 +1,5 @@
-import { Router } from 'express';
-import config from '../utils/config';
+import { Router } from "express";
+import config from "../utils/config";
 import {
   postAboutUs,
   postGetStarted,
@@ -8,31 +8,47 @@ import {
   postOurServices,
   postScheduleMeeting,
   postWelcome,
-} from '../utils/webhook';
-import webhookPayload from '../utils/webhookPayload';
+} from "../utils/webhook";
+import webhookPayload from "../utils/webhookPayload";
+import api from "../utils/api";
 
 const webhookRouter = Router();
 
-webhookRouter.get('/', async (req, res) => {
-  const mode = req.query['hub.mode'];
-  const token = req.query['hub.verify_token'];
-  const challenge = req.query['hub.challenge'];
+webhookRouter.get("/", async (req, res) => {
+  const mode = req.query["hub.mode"];
+  const token = req.query["hub.verify_token"];
+  const challenge = req.query["hub.challenge"];
 
   if (mode && token) {
-    if (mode !== 'subscribe' && token !== config.FB_VERIFY_TOKEN) {
+    if (mode !== "subscribe" && token !== config.FB_VERIFY_TOKEN) {
       res.sendStatus(403);
     }
 
-    await postGetStarted();
+    await api.post(
+      "/me/messenger_profile",
+      {
+        greeting: [
+          {
+            locale: "default",
+            text: "Hello {{user_first_name}}!",
+          },
+        ],
+      },
+      {
+        params: {
+          access_token: config.FB_PAGE_ACCESS_TOKEN,
+        },
+      }
+    );
 
     res.status(200).send(challenge);
   }
 });
 
-webhookRouter.post('/', async (req, res) => {
+webhookRouter.post("/", async (req, res) => {
   const body = req.body;
 
-  if (body.object !== 'page') return res.sendStatus(404);
+  if (body.object !== "page") return res.sendStatus(404);
 
   body.entry.forEach((entry: any) => {
     entry.messaging.forEach((event: any) => {
@@ -68,7 +84,7 @@ webhookRouter.post('/', async (req, res) => {
     });
   });
 
-  res.status(200).send('EVENT_RECEIVED');
+  res.status(200).send("EVENT_RECEIVED");
 });
 
 export default webhookRouter;
