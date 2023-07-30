@@ -24,25 +24,66 @@ webhookRouter.get("/", async (req, res) => {
       res.sendStatus(403);
     }
 
-    await api.post(
-      "/me/messenger_profile",
-      {
-        get_started: { payload: "get_started" },
-        greeting: [
-          {
-            locale: "default",
-            text: "Hello {{user_first_name}}!",
-          },
-        ],
-      },
-      {
-        params: {
-          access_token: config.FB_PAGE_ACCESS_TOKEN,
-        },
-      }
-    );
+    // await api.post(
+    //   "/me/messenger_profile",
+    //   {
+    //     get_started: { payload: "get_started" },
+    //     greeting: [
+    //       {
+    //         locale: "default",
+    //         text: "Hello {{user_first_name}}!",
+    //       },
+    //     ],
+    //   },
+    //   {
+    //     params: {
+    //       access_token: config.FB_PAGE_ACCESS_TOKEN,
+    //     },
+    //   }
+    // );
 
-    res.status(200).send(challenge);
+    // res.status(200).send(challenge);
+    await fetch(
+      `https://graph.facebook.com/v17.0/me/messenger_profile?access_token=${config.FB_PAGE_ACCESS_TOKEN}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          whitelisted_domains: [process.env.APP_WEBVIEW],
+          get_started: {
+            payload: "greeting",
+          },
+          persistent_menu: [
+            {
+              locale: "default",
+              composer_input_disabled: false,
+              call_to_actions: [
+                {
+                  type: "postback",
+                  title: "Restart Bot",
+                  payload: "restart",
+                },
+                {
+                  type: "postback",
+                  title: "Read Full Mechanics",
+                  payload: "mechanics",
+                },
+                {
+                  type: "postback",
+                  title: "Send an Inquiry",
+                  payload: "inquiries",
+                },
+              ],
+            },
+          ],
+        }),
+      }
+    ).then(() => {
+      console.log("WEBHOOK_VERIFIED");
+      res.send(challenge);
+    });
   }
 });
 
