@@ -1,8 +1,7 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from "@prisma/client";
 
 type TTicket = {
   id: number;
-  ticketNumber: string;
   clientName: string;
   clientEmail: string;
   projectName: string;
@@ -13,7 +12,7 @@ type TTicket = {
 const prisma = new PrismaClient();
 
 const ticketController = {
-  createTicket: async (ticket: Omit<TTicket, 'id' | 'ticketNumber'>) => {
+  createTicket: async (ticket: Omit<TTicket, "id">) => {
     try {
       const data = await prisma.ticket.create({
         data: ticket,
@@ -25,7 +24,7 @@ const ticketController = {
     }
   },
 
-  updateTicket: async (ticket: Omit<TTicket, 'ticketNumber'>) => {
+  updateTicket: async (ticket: TTicket) => {
     try {
       const data = await prisma.ticket.update({
         where: {
@@ -50,7 +49,7 @@ const ticketController = {
     }
   },
 
-  getTicket: async (ticketID: TTicket['id']) => {
+  getTicket: async (ticketID: TTicket["id"]) => {
     try {
       const data = await prisma.ticket.findUnique({
         where: {
@@ -74,7 +73,7 @@ const ticketController = {
     }
   },
 
-  deleteTicket: async (ticketID: TTicket['id']) => {
+  deleteTicket: async (ticketID: TTicket["id"]) => {
     try {
       const data = await prisma.ticket.delete({
         where: {

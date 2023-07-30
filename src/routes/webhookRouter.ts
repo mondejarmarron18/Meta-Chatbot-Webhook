@@ -33,7 +33,10 @@ webhookRouter.post("/", async (req, res) => {
 
   if (body.object !== "page") return res.sendStatus(404);
 
-  if (body.entry[0].changes && body.entry[0].changes[0].field === "feed") {
+  if (
+    body.entry?.[0]?.changes &&
+    body.entry?.[0]?.changes?.[0]?.field === "feed"
+  ) {
     try {
       await postGetStarted();
 
