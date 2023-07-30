@@ -24,32 +24,7 @@ webhookRouter.get("/", async (req, res) => {
       res.sendStatus(403);
     }
 
-    console.log("SHould Be Running");
-
-    api
-      .post(
-        "/me/messenger_profile",
-        {
-          get_started: { payload: "get_started" },
-          greeting: [
-            {
-              locale: "default",
-              text: "Hello {{user_first_name}}!",
-            },
-          ],
-        },
-        {
-          params: {
-            access_token: config.FB_PAGE_ACCESS_TOKEN,
-          },
-        }
-      )
-      .then(() => {
-        res.status(200).send(challenge);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    res.status(200).send(challenge);
   }
 });
 
@@ -57,6 +32,17 @@ webhookRouter.post("/", async (req, res) => {
   const body = req.body;
 
   if (body.object !== "page") return res.sendStatus(404);
+
+  if (body.entry[0].changes && body.entry[0].changes[0].field === "feed") {
+    try {
+      await postGetStarted();
+
+      return res.status(200).send("EVENT_RECEIVED");
+    } catch (error) {
+      console.log(error);
+      return res.sendStatus(500);
+    }
+  }
 
   body.entry.forEach((entry: any) => {
     entry.messaging.forEach((event: any) => {
