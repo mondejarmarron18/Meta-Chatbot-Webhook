@@ -7,7 +7,7 @@ export const postGetStarted = async () => {
   return await api.post(
     "/me/messenger_profile",
     {
-      get_started: { payload: "get_started" },
+      get_started: { payload: webhookPayload.getStarted },
       greeting: [
         {
           locale: "default",
@@ -23,30 +23,7 @@ export const postGetStarted = async () => {
   );
 };
 
-export const postGreeting = async () => {
-  return await api.post(
-    "/me/messenger_profile",
-    {
-      greeting: [
-        {
-          locale: "default",
-          text: "Hi {{user_first_name}}!",
-        },
-        {
-          locale: "en_US",
-          text: "Welcome to Lightweight Solutions Page! 😊 Please choose from the options below to learn more.",
-        },
-      ],
-    },
-    {
-      params: {
-        access_token: config.FB_PAGE_ACCESS_TOKEN,
-      },
-    }
-  );
-};
-
-export const postWelcome = async (psid: string) => {
+export const postGreeting = async (psid: string) => {
   return await api.post(
     `/me/messages`,
     {
