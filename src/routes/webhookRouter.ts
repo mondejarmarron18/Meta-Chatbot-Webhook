@@ -24,25 +24,32 @@ webhookRouter.get("/", async (req, res) => {
       res.sendStatus(403);
     }
 
-    await api.post(
-      "/me/messenger_profile",
-      {
-        get_started: { payload: "get_started" },
-        greeting: [
-          {
-            locale: "default",
-            text: "Hello {{user_first_name}}!",
-          },
-        ],
-      },
-      {
-        params: {
-          access_token: config.FB_PAGE_ACCESS_TOKEN,
-        },
-      }
-    );
+    console.log("SHould Be Running");
 
-    res.status(200).send(challenge);
+    api
+      .post(
+        "/me/messenger_profile",
+        {
+          get_started: { payload: "get_started" },
+          greeting: [
+            {
+              locale: "default",
+              text: "Hello {{user_first_name}}!",
+            },
+          ],
+        },
+        {
+          params: {
+            access_token: config.FB_PAGE_ACCESS_TOKEN,
+          },
+        }
+      )
+      .then(() => {
+        res.status(200).send(challenge);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 });
 
