@@ -21,7 +21,6 @@ serviceRouter.post("/", async (req, res) => {
     to: "mondejarmarron18@gmail.com", // Change to your recipient
     from: "marvin.r@lightweightsolutions.me", // Change to your verified sender
     subject: "Service Inquiry",
-    text: "Software Developement",
     html: `
             <p><b>Service Name: </b>${serviceName}</p>
             <p><b>Name: </b>${name}</p>
