@@ -13,15 +13,9 @@ const prisma = new PrismaClient();
 
 const ticketController = {
   createTicket: async (ticket: Omit<TTicket, "id">) => {
-    try {
-      const data = await prisma.ticket.create({
-        data: ticket,
-      });
-
-      return data;
-    } catch (error) {
-      return error;
-    }
+    return await prisma.ticket.create({
+      data: ticket,
+    });
   },
 
   updateTicket: async (ticket: TTicket) => {
@@ -40,13 +34,7 @@ const ticketController = {
   },
 
   getTickets: async () => {
-    try {
-      const data = await prisma.ticket.findMany();
-
-      return data;
-    } catch (error) {
-      return error;
-    }
+    return await prisma.ticket.findMany();
   },
 
   getTicket: async (ticketID: TTicket["id"]) => {
