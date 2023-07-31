@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "license": "MIT",
   "engines": {
-    "node": "v18.14.2",
-    "yarn": "v1.22.19"
+    "node": ">=18.14.2",
+    "yarn": ">=1.22.19"
   },
   "scripts": {
     "dev": "nodemon src/index.ts",
