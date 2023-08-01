@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 
-type TTicket = {
+export type TTicket = {
   id: number;
   clientName: string;
   clientEmail: string;

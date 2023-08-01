@@ -36,8 +36,12 @@ app.get("/service/:serviceID", (req, res) => {
   });
 });
 
-app.get("/issues-maintenance", (req, res) => {
-  res.render("issues-maintenance");
+app.get("/issues-maintenance/:psid", (req, res) => {
+  const psid = req.params.psid;
+
+  res.render("issues-maintenance", {
+    psid,
+  });
 });
 
 app.listen(config.PORT, () => {

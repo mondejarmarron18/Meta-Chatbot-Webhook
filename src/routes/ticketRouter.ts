@@ -1,5 +1,6 @@
 import { Router } from "express";
-import ticketController from "../controllers/ticketController";
+import ticketController, { TTicket } from "../controllers/ticketController";
+import { postTicketConfirmation } from "../utils/webhook";
 
 const ticketRouter = Router();
 
@@ -8,6 +9,19 @@ ticketRouter.post("/", async (req, res) => {
     const ticket = await ticketController.createTicket(req.body);
 
     res.send(ticket);
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+ticketRouter.post("/:psid", async (req, res) => {
+  try {
+    const psid = req.params.psid;
+    const body = req.body;
+
+    await postTicketConfirmation(psid, body);
+
+    res.sendStatus(200);
   } catch (error) {
     res.send(error);
   }
