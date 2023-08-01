@@ -4,7 +4,6 @@
   "license": "MIT",
   "engines": {
     "node": "v18.14.2",
-    "npm": "please-use-yarn",
     "yarn": "v1.22.19"
   },
   "scripts": {
