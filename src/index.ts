@@ -6,6 +6,7 @@ import ticketRouter from "./routes/ticketRouter";
 import { services } from "./utils/data/services";
 import serviceInquiryRouter from "./routes/serviceInquiryRouter";
 import bodyParser from "body-parser";
+import serviceInquiryController from "./controllers/serviceInquiryController";
 
 const app = express();
 
@@ -24,7 +25,7 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
-app.get("/service-inquiry/:psid/:serviceID/", (req, res) => {
+app.get("/service-inquiry/:psid/:serviceID", (req, res) => {
   const { serviceID, psid } = req.params;
 
   const service = services.find((service) => {
@@ -32,9 +33,27 @@ app.get("/service-inquiry/:psid/:serviceID/", (req, res) => {
   });
 
   res.render("service-inquiry", {
-    serviceTitle: service?.title,
+    serviceName: service?.title,
     psid,
   });
+});
+
+app.get("/service-inquiry/update/:psid/:serviceInquiryID", async (req, res) => {
+  const { serviceInquiryID, psid } = req.params;
+
+  try {
+    const serviceInquiry = await serviceInquiryController.getServiceInquiry(
+      +serviceInquiryID
+    );
+
+    res.render("service-inquiry", {
+      ...serviceInquiry,
+      psid,
+    });
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
 });
 
 app.get("/issues-maintenance/:psid", (req, res) => {

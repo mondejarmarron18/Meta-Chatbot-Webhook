@@ -18,13 +18,23 @@
         disabled
         required
       />
+      <input
+        id="serviceInquiryID"
+        class="text-sm font-medium rounded"
+        type="text"
+        name="serviceInquiryID"
+        value="<%= id %>"
+        hidden
+        disabled
+        required
+      />
       <div class="flex flex-col">
         <label for="name" class="font-semibold">Service</label>
         <input
           class="text-sm font-medium rounded"
           type="text"
           name="serviceName"
-          value="<%= serviceTitle %>"
+          value="<%= serviceName %>"
           required
         />
       </div>
@@ -34,6 +44,7 @@
           class="text-sm font-medium rounded"
           type="text"
           name="name"
+          value="<%= name %>"
           required
         />
       </div>
@@ -43,6 +54,7 @@
           class="text-sm font-medium rounded"
           type="text"
           name="companyName"
+          value="<%= companyName %>"
           required
         />
       </div>
@@ -52,6 +64,7 @@
           class="text-sm font-medium rounded"
           type="text"
           name="designation"
+          value="<%= designation %>"
           required
         />
       </div>
@@ -61,6 +74,7 @@
           class="text-sm font-medium rounded"
           type="email"
           name="email"
+          value="<%= email %>"
           required
         />
       </div>
@@ -70,6 +84,7 @@
           class="text-sm font-medium rounded"
           type="text"
           name="phone"
+          value="<%= phone %>"
           required
         />
       </div>
@@ -79,9 +94,12 @@
         >
         <textarea
           class="text-sm font-medium rounded"
-          name="conernsAndInquiry"
+          name="concernsAndInquiry"
           required
-        ></textarea>
+        >
+        <%= conernsAndInquiry %>
+      </textarea
+        >
       </div>
       <button class="p-2 bg-[#DD3538] rounded mt-5 text-white font-semibold">
         Submit
@@ -98,7 +116,7 @@
         class="p-5 bg-red-200 text-center font-semibold"
         hidden
       >
-        Sending Inquirty Failed
+        Sending Inquiry Failed
       </div>
     </form>
   </body>
@@ -108,7 +126,8 @@
     const form = document.querySelector("form");
     const statusPassed = document.getElementById("statusPassed");
     const statusFailed = document.getElementById("statusFailed");
-    const psid = document.getElementById("psid");
+    const psid = document.getElementById("psid").value;
+    const serviceInquiryID = document.getElementById("serviceInquiryID").value;
 
     // Add a form submission event listener
     form.addEventListener("submit", (event) => {
@@ -117,8 +136,8 @@
       // Get the form data as a URL-encoded string
       const formData = new URLSearchParams(new FormData(form));
 
-      fetch(`/serviceInquiry/${psid.value}`, {
-        method: "POST",
+      fetch(`/serviceInquiry/${psid}?serviceInquiryID=${serviceInquiryID}`, {
+        method: serviceInquiryID ? "PUT" : "POST",
         body: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",

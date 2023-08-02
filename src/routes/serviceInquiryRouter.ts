@@ -7,9 +7,9 @@ import {
   postServiceInquirySummaryConfirmation,
 } from "../utils/webhook";
 
-const servinceInquiryRouter = Router();
+const serviceInquiryRouter = Router();
 
-servinceInquiryRouter.post("/", async (req, res) => {
+serviceInquiryRouter.post("/", async (req, res) => {
   try {
     const serviceInquiry = await serviceInquiryController.createServiceInquiry(
       req.body
@@ -23,7 +23,7 @@ servinceInquiryRouter.post("/", async (req, res) => {
   return;
 });
 
-servinceInquiryRouter.post("/:psid", async (req, res) => {
+serviceInquiryRouter.post("/:psid", async (req, res) => {
   const psid = req.params.psid;
 
   try {
@@ -41,7 +41,7 @@ servinceInquiryRouter.post("/:psid", async (req, res) => {
   }
 });
 
-servinceInquiryRouter.get("/:serviceInquiryID", async (req, res) => {
+serviceInquiryRouter.get("/:serviceInquiryID", async (req, res) => {
   try {
     const serviceInquiryID = req.params.serviceInquiryID;
 
@@ -55,7 +55,8 @@ servinceInquiryRouter.get("/:serviceInquiryID", async (req, res) => {
     res.sendStatus(500);
   }
 });
-servinceInquiryRouter.get("/", async (req, res) => {
+
+serviceInquiryRouter.get("/", async (req, res) => {
   try {
     const serviceInquiries =
       await serviceInquiryController.getServiceInquiries();
@@ -67,4 +68,19 @@ servinceInquiryRouter.get("/", async (req, res) => {
   }
 });
 
-export default servinceInquiryRouter;
+serviceInquiryRouter.put("/", async (req, res) => {
+  const serviceInquiryID = req.query.serviceInquiryID;
+
+  res.send({ serviceInquiryID, body: req.body });
+  // try {
+  //   const serviceInquiries =
+  //     await serviceInquiryController.getServiceInquiries();
+
+  //   res.status(200).send(serviceInquiries);
+  // } catch (error) {
+  //   console.log(error);
+  //   res.sendStatus(200);
+  // }
+});
+
+export default serviceInquiryRouter;

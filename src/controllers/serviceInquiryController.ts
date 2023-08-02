@@ -44,9 +44,8 @@ const serviceInquiryController = {
       const message = {
         to: `${config.SENDGRID_RECEIVER_EMAIL}`, // Change to your recipient
         from: `${config.SENDGRID_SENDER_EMAIL}`, // Change to your verified sender
-        subject: "Service Inquiry",
+        subject: `Service Inquiry - ${serviceInquiry.serviceName}`,
         html: `
-          <p><b>Service Name: </b>${serviceInquiry.serviceName}</p>
           <p><b>Name: </b>${serviceInquiry.name}</p>
           <p><b>Company Name: </b>${serviceInquiry.companyName}</p> 
           <p><b>Designation: </b>${serviceInquiry.designation}</p>
