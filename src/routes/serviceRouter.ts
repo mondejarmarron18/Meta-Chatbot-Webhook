@@ -42,4 +42,15 @@ serviceRouter.post("/", async (req, res) => {
   }
 });
 
+serviceRouter.post("/:psid", async (req, res) => {
+  const psid = req.params.psid;
+
+  try {
+    res.status(200).send("Sent!");
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+});
+
 export default serviceRouter;
