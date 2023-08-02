@@ -117,7 +117,7 @@
       // Get the form data as a URL-encoded string
       const formData = new URLSearchParams(new FormData(form));
 
-      fetch(`/serviceInquiry/${psid}`, {
+      fetch(`/serviceInquiry/${psid.value}`, {
         method: "POST",
         body: formData,
         headers: {
