@@ -13,33 +13,60 @@
         class="text-sm font-medium rounded"
         type="text"
         name="psid"
-        value="<%= psid %>"
+        value="<%= serviceInquiry?.psid %>"
         hidden
         disabled
         required
       />
-      <input id="serviceInquiryID" class="text-sm font-medium rounded"
-      type="text" name="serviceInquiryID" value="<%= id || "" %>" hidden
-      disabled required />
+      <input
+        id="serviceInquiryID"
+        class="text-sm font-medium rounded"
+        type="text"
+        name="serviceInquiryID"
+        value="<%= serviceInquiry?.id %>"
+        hidden
+        disabled
+        required
+      />
       <div class="flex flex-col">
         <label for="name" class="font-semibold">Service</label>
-        <input class="text-sm font-medium rounded" type="text"
-        name="serviceName" value="<%= serviceName || "" %>" required />
+        <input
+          class="text-sm font-medium rounded"
+          type="text"
+          name="serviceName"
+          value="<%= serviceInquiry?.serviceName %>"
+          required
+        />
       </div>
       <div class="flex flex-col">
         <label for="name" class="font-semibold">Name</label>
-        <input class="text-sm font-medium rounded" type="text" name="name"
-        value="<%= name || "" %>" required />
+        <input
+          class="text-sm font-medium rounded"
+          type="text"
+          name="name"
+          value="<%= serviceInquiry?.name %>"
+          required
+        />
       </div>
       <div class="flex flex-col">
         <label for="companyName" class="font-semibold">Company Name</label>
-        <input class="text-sm font-medium rounded" type="text"
-        name="companyName" value="<%= companyName || "" %>" required />
+        <input
+          class="text-sm font-medium rounded"
+          type="text"
+          name="companyName"
+          value="<%= serviceInquiry?.companyName %>"
+          required
+        />
       </div>
       <div class="flex flex-col">
         <label for="designation" class="font-semibold">Designation</label>
-        <input class="text-sm font-medium rounded" type="text"
-        name="designation" value="<%= designation || "" %>" required />
+        <input
+          class="text-sm font-medium rounded"
+          type="text"
+          name="designation"
+          value="<%= serviceInquiry?.designation %>"
+          required
+        />
       </div>
       <div class="flex flex-col">
         <label for="email" class="font-semibold">Email</label>
@@ -47,14 +74,19 @@
           class="text-sm font-medium rounded"
           type="email"
           name="email"
-          value="<%= email %>"
+          value="<%= serviceInquiry?.email %>"
           required
         />
       </div>
       <div class="flex flex-col">
         <label for="phone" class="font-semibold">Mobile Number</label>
-        <input class="text-sm font-medium rounded" type="text" name="phone"
-        value="<%= phone || "" %>" required />
+        <input
+          class="text-sm font-medium rounded"
+          type="text"
+          name="phone"
+          value="<%= serviceInquiry?.phone %>"
+          required
+        />
       </div>
       <div class="flex flex-col">
         <label for="conernsAndInquiry" class="font-semibold"
@@ -65,7 +97,7 @@
           name="concernsAndInquiry"
           required
         >
-        <%= conernsAndInquiry || "" %>
+        <%= serviceInquiry?.conernsAndInquiry %>
       </textarea
         >
       </div>

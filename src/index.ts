@@ -33,8 +33,10 @@ app.get("/service-inquiry/:psid/:serviceID", (req, res) => {
   });
 
   res.render("service-inquiry", {
-    serviceName: service?.title,
     psid,
+    serviceInquiry: {
+      serviceName: service?.title,
+    },
   });
 });
 
@@ -48,7 +50,7 @@ app.get("/service-inquiry/update/:psid/:serviceInquiryID", async (req, res) => {
 
     res.render("service-inquiry", {
       psid,
-      ...serviceInquiry,
+      serviceInquiry,
     });
   } catch (error) {
     console.log(error);
