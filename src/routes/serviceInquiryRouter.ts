@@ -68,10 +68,10 @@ serviceInquiryRouter.get("/", async (req, res) => {
   }
 });
 
-serviceInquiryRouter.put("/", async (req, res) => {
-  const serviceInquiryID = req.query.serviceInquiryID;
+serviceInquiryRouter.put("/:psid/:serviceInquiryID", async (req, res) => {
+  const { psid, serviceInquiryID } = req.query;
 
-  res.send({ serviceInquiryID, body: req.body });
+  res.send({ psid, serviceInquiryID, body: req.body });
   // try {
   //   const serviceInquiries =
   //     await serviceInquiryController.getServiceInquiries();
