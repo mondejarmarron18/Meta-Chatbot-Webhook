@@ -76,10 +76,19 @@ webhookRouter.post("/", async (req, res) => {
 
         //Email servince inquiry
         if (payload?.includes(webhookPayload.serviceInquiryConfirmed)) {
-          const serviceInquiryID = payload
-            ?.split(webhookPayload.serviceInquiryConfirmed)
-            .join("");
-          return serviceInquiryController.sendEmail(+serviceInquiryID);
+          console.log(payload);
+          console.log(payload?.split(webhookPayload.serviceInquiryConfirmed));
+          console.log(
+            payload?.split(webhookPayload.serviceInquiryConfirmed).join("")
+          );
+          console.log(
+            +payload?.split(webhookPayload.serviceInquiryConfirmed).join("")
+          );
+          return;
+          // const serviceInquiryID = payload
+          //   ?.split(webhookPayload.serviceInquiryConfirmed)
+          //   .join("");
+          // return serviceInquiryController.sendEmail(+serviceInquiryID);
         }
       }
     });
