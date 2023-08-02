@@ -18,6 +18,7 @@ ticketRouter.post("/:psid", async (req, res) => {
   try {
     const psid = req.params.psid;
     const ticket = await ticketController.createTicket(req.body);
+    console.log(psid);
 
     await postTicket(psid, ticket);
 
