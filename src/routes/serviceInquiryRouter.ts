@@ -10,7 +10,17 @@ import {
 const servinceInquiryRouter = Router();
 
 servinceInquiryRouter.post("/", async (req, res) => {
-  return await serviceInquiryController.createServiceInquiry(req.body);
+  try {
+    const serviceInquiry = await serviceInquiryController.createServiceInquiry(
+      req.body
+    );
+
+    res.status(201).send(serviceInquiry);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+  return;
 });
 
 servinceInquiryRouter.post("/:psid", async (req, res) => {
@@ -32,12 +42,29 @@ servinceInquiryRouter.post("/:psid", async (req, res) => {
 });
 
 servinceInquiryRouter.get("/:serviceInquiryID", async (req, res) => {
-  const serviceInquiryID = req.params.serviceInquiryID;
+  try {
+    const serviceInquiryID = req.params.serviceInquiryID;
 
-  return await serviceInquiryController.getServiceInquiry(+serviceInquiryID);
+    const serviceInquiry = await serviceInquiryController.getServiceInquiry(
+      +serviceInquiryID
+    );
+
+    res.status(200).send(serviceInquiry);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
 });
-servinceInquiryRouter.get("/", async () => {
-  return await serviceInquiryController.getServiceInquiries();
+servinceInquiryRouter.get("/", async (req, res) => {
+  try {
+    const serviceInquiries =
+      await serviceInquiryController.getServiceInquiries();
+
+    res.status(200).send(serviceInquiries);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(200);
+  }
 });
 
 export default servinceInquiryRouter;
