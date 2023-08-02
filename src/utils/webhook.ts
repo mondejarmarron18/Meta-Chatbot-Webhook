@@ -237,39 +237,33 @@ export const postTicket = async (psid: string, ticket: TTicket) => {
   const ticketLength = ticket.id.toString().length;
   const ticketNumber = [...Array(5 - ticketLength).fill(0), ticket.id].join("");
 
-  console.log({
-    ticketNumber,
-    psid,
-    ticket: ticket,
-  });
-
-  // return await api.post(
-  //   `/me/messages`,
-  //   {
-  //     recipient: {
-  //       id: psid,
-  //     },
-  //     messaging_type: "RESPONSE",
-  //     message: {
-  //       text: `
-  //         Thank you for contacting us. Your ticket number for your concerns is: LWS${ticketNumber}. Our team will be in touch with you within the next 24 hours. For any follow-ups or other concerns, you can also reach us via email at pmteam@lightweightsolutions.me.
-  //         \n\n
-  //         We appreciate your patience and look forward to assisting you further.`,
-  //       quick_replies: [
-  //         {
-  //           content_type: "text",
-  //           title: "Go Back",
-  //           payload: webhookPayload.goBack,
-  //         },
-  //       ],
-  //     },
-  //   },
-  //   {
-  //     params: {
-  //       access_token: config.FB_PAGE_ACCESS_TOKEN,
-  //     },
-  //   }
-  // );
+  return await api.post(
+    `/me/messages`,
+    {
+      recipient: {
+        id: psid,
+      },
+      messaging_type: "RESPONSE",
+      message: {
+        text: `
+          Thank you for contacting us. Your ticket number for your concerns is: LWS${ticketNumber}. Our team will be in touch with you within the next 24 hours. For any follow-ups or other concerns, you can also reach us via email at pmteam@lightweightsolutions.me.
+          \n\n
+          We appreciate your patience and look forward to assisting you further.`,
+        quick_replies: [
+          {
+            content_type: "text",
+            title: "Go Back",
+            payload: webhookPayload.goBack,
+          },
+        ],
+      },
+    },
+    {
+      params: {
+        access_token: config.FB_PAGE_ACCESS_TOKEN,
+      },
+    }
+  );
 };
 
 export const postServiceInquiryConfirmation = async (
