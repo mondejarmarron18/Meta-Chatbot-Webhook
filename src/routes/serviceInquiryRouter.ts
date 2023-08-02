@@ -31,4 +31,13 @@ servinceInquiryRouter.post("/:psid", async (req, res) => {
   }
 });
 
+servinceInquiryRouter.get("/:serviceInquiryID", async (req, res) => {
+  const serviceInquiryID = req.params.serviceInquiryID;
+
+  return await serviceInquiryController.getServiceInquiry(+serviceInquiryID);
+});
+servinceInquiryRouter.get("/", async () => {
+  return await serviceInquiryController.getServiceInquiries();
+});
+
 export default servinceInquiryRouter;

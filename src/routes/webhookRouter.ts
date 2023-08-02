@@ -74,8 +74,7 @@ webhookRouter.post("/", async (req, res) => {
 
         const payload = event.postback?.payload;
 
-        console.log(event.postback?.payload);
-
+        //Email servince inquiry
         if (payload?.includes(webhookPayload.serviceInquiryConfirmed)) {
           const serviceInquiryID = payload
             ?.split(webhookPayload.serviceInquiryConfirmed)
