@@ -7,13 +7,13 @@ import {
   postServiceInquirySummaryConfirmation,
 } from "../utils/webhook";
 
-const serviceRouter = Router();
+const servinceInquiryRouter = Router();
 
-serviceRouter.post("/", async (req, res) => {
+servinceInquiryRouter.post("/", async (req, res) => {
   return await serviceInquiryController.createServiceInquiry(req.body);
 });
 
-serviceRouter.post("/:psid", async (req, res) => {
+servinceInquiryRouter.post("/:psid", async (req, res) => {
   const psid = req.params.psid;
 
   try {
@@ -31,4 +31,4 @@ serviceRouter.post("/:psid", async (req, res) => {
   }
 });
 
-export default serviceRouter;
+export default servinceInquiryRouter;

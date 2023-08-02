@@ -4,7 +4,7 @@ import cors from "cors";
 import webhookRouter from "./routes/webhookRouter";
 import ticketRouter from "./routes/ticketRouter";
 import { services } from "./utils/data/services";
-import serviceRouter from "./routes/serviceRouter";
+import serviceInquiryRouter from "./routes/serviceInquiryRouter";
 import bodyParser from "body-parser";
 
 const app = express();
@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/webhook", webhookRouter);
 app.use("/tickets", ticketRouter);
-app.use("/serviceInquiry", serviceRouter);
+app.use("/serviceInquiry", serviceInquiryRouter);
 
 //Pages
 app.get("/", (req, res) => {
