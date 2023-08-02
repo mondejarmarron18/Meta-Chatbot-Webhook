@@ -48,14 +48,7 @@ app.get("/service-inquiry/update/:psid/:serviceInquiryID", async (req, res) => {
 
     res.render("service-inquiry", {
       psid,
-      id: serviceInquiry?.id,
-      serviceName: serviceInquiry?.serviceName,
-      name: serviceInquiry?.name,
-      companyName: serviceInquiry?.companyName,
-      designation: serviceInquiry?.designation,
-      email: serviceInquiry?.email,
-      phone: serviceInquiry?.phone,
-      concernsAndInquiry: serviceInquiry?.conernsAndInquiry,
+      ...serviceInquiry,
     });
   } catch (error) {
     console.log(error);
