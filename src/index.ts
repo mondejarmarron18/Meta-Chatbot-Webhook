@@ -31,7 +31,7 @@ app.get("/service-inquiry/:psid/:serviceID/", (req, res) => {
     return service.id.toString() === serviceID;
   });
 
-  res.render("service", {
+  res.render("service-inquiry", {
     serviceTitle: service?.title,
     psid,
   });
