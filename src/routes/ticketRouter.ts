@@ -17,9 +17,9 @@ ticketRouter.post("/", async (req, res) => {
 ticketRouter.post("/:psid", async (req, res) => {
   try {
     const psid = req.params.psid;
-    const body = req.body;
+    const ticket = await ticketController.createTicket(req.body);
 
-    await postTicket(psid, body);
+    await postTicket(psid, ticket);
 
     res.sendStatus(200);
   } catch (error) {

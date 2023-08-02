@@ -237,6 +237,8 @@ export const postTicket = async (psid: string, ticket: TTicket) => {
   const ticketLength = ticket.id.toString().length;
   const ticketNumber = [...Array(5 - ticketLength).fill(0), ticket.id].join("");
 
+  console.log("Posting Ticket...");
+
   return await api.post(
     `/me/messages`,
     {
