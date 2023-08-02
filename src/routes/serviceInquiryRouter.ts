@@ -90,4 +90,14 @@ serviceInquiryRouter.put("/:psid/:serviceInquiryID", async (req, res) => {
   }
 });
 
+serviceInquiryRouter.delete("/", async (req, res) => {
+  try {
+    const count = await serviceInquiryController.deleteInquiries();
+
+    res.status(200).send(count);
+  } catch (error) {
+    res.sendStatus(500);
+  }
+});
+
 export default serviceInquiryRouter;

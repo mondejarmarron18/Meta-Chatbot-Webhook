@@ -67,6 +67,9 @@ const serviceInquiryController = {
       data: serviceInquiry,
     });
   },
+  deleteInquiries: async () => {
+    return await prisma.serviceInquiry.deleteMany();
+  },
 };
 
 export default serviceInquiryController;
