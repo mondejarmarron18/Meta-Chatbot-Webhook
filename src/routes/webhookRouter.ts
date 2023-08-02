@@ -10,6 +10,7 @@ import {
   postGreeting,
 } from "../utils/webhook";
 import webhookPayload from "../utils/webhookPayload";
+import serviceInquiryController from "../controllers/serviceInquiryController";
 
 const webhookRouter = Router();
 
@@ -69,6 +70,13 @@ webhookRouter.post("/", async (req, res) => {
             return postScheduleMeeting(psid);
           case webhookPayload.otherInquiry:
             return postOtherInquiry(psid);
+          case event.postback?.payload?.includes(
+            webhookPayload.serviceInquiryConfirmed
+          ):
+            const serviceInquiryID = event.postback.payload
+              ?.split(webhookPayload.serviceInquiryConfirmed)
+              .join("");
+            return serviceInquiryController.sendEmail(+serviceInquiryID);
         }
       }
     });

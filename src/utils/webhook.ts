@@ -1,3 +1,4 @@
+import { TServiceInquiry } from "../controllers/serviceInquiryController";
 import { TTicket } from "../controllers/ticketController";
 import api from "./api";
 import config from "./config";
@@ -232,18 +233,29 @@ export const postScheduleMeeting = async (psid: string) => {
   );
 };
 
-export const postIssuesOrMaintenanceTicket = async (psid: string) => {
-  const id = Math.floor(Math.random() * 899) + 100;
+export const postTicket = async (psid: string, ticket: TTicket) => {
+  const ticketLength = ticket.id.toString().length;
+  const ticketNumber = [...Array(5 - ticketLength).fill(0), ticket.id].join("");
 
   return await api.post(
-    `${config.FB_PAGE_ID}/messages`,
+    `/me/messages`,
     {
       recipient: {
         id: psid,
       },
-      message_type: "RESPONSE",
+      messaging_type: "RESPONSE",
       message: {
-        text: `Thank you for contacting us. Your ticket number for your concerns is: LWS${id}. Our team will be in touch with you within the next 24 hours. For any follow-ups or other concerns, you can also reach us via email at pmteam@lightweightsolutions.me.\n\nWe appreciate your patience and look forward to assisting you further.`,
+        text: `
+          Thank you for contacting us. Your ticket number for your concerns is: LWS${ticketNumber}. Our team will be in touch with you within the next 24 hours. For any follow-ups or other concerns, you can also reach us via email at pmteam@lightweightsolutions.me.
+          \n\n
+          We appreciate your patience and look forward to assisting you further.`,
+        quick_replies: [
+          {
+            content_type: "text",
+            title: "Go Back",
+            payload: webhookPayload.goBack,
+          },
+        ],
       },
     },
     {
@@ -254,7 +266,10 @@ export const postIssuesOrMaintenanceTicket = async (psid: string) => {
   );
 };
 
-export const postTicketConfirmation = async (psid: string, ticket: TTicket) => {
+export const postServiceInquiryConfirmation = async (
+  psid: string,
+  serviceInquiry: TServiceInquiry
+) => {
   return await api.post(
     `/me/messages`,
     {
@@ -266,24 +281,30 @@ export const postTicketConfirmation = async (psid: string, ticket: TTicket) => {
           type: "template",
           payload: {
             template_type: "button",
-            text: `
-            Redirect to Form 
+            text: `✍ Information Summary:
             \n\n
-            Client Name: ${ticket.clientName}
-            Email Address: ${ticket.clientEmail}
-            Project Name: ${ticket.projectName}
-            Project Status: ${ticket.projectStatus}
-            Issues and Concerns: ${ticket.issuesAndConcerns}`,
+            Name: ${serviceInquiry.name}
+            Company Name: ${serviceInquiry.companyName}
+            Designation: ${serviceInquiry.designation}
+            Email: ${serviceInquiry.email}
+            Mobile Number: ${serviceInquiry.phone}
+            Concerns and Inquiry: ${serviceInquiry.conernsAndInquiry}
+            \n\n
+            Is  the information above correct? 
+            \n\n
+            Hit I’M DONE  if it's all good or click EDIT if you need to change something. 😊`,
             buttons: [
               {
-                type: "web_url",
-                title: "Im Done",
-                url: `${config.FB_WEBVIEW_URL}/tickets?clientName=${ticket.clientName}&emailAddress${ticket.clientEmail}&projectName=${ticket.projectName}&projectStatus=${ticket.projectStatus}&issuesAndConcerns=${ticket.issuesAndConcerns}`,
+                type: "postback",
+                title: "I'm Done",
+                payload: `${webhookPayload.serviceInquiryConfirmed}_${serviceInquiry.id}`,
               },
               {
                 type: "web_url",
                 title: "Edit",
-                url: `${config.FB_WEBVIEW_URL}/tickets/update?clientName=${ticket.clientName}&emailAddress${ticket.clientEmail}&projectName=${ticket.projectName}&projectStatus=${ticket.projectStatus}&issuesAndConcerns=${ticket.issuesAndConcerns}`,
+                url: `${config.FB_WEBVIEW_URL}/issues-maintenance/${psid}/${serviceInquiry.id}`,
+                webview_height_ratio: "tall",
+                messenger_extensions: true,
               },
             ],
           },

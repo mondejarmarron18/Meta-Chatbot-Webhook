@@ -8,6 +8,7 @@ enum webhookPayload {
   "scheduleMeeting" = "schedule_meeting",
   "issuesOrMaintenance" = "issues_or_maintenance",
   "otherInquiry" = "other_inquiry",
+  "serviceInquiryConfirmed" = "email_service_inquiry",
 }
 
 export default webhookPayload;
