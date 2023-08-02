@@ -74,7 +74,7 @@ serviceInquiryRouter.put("/:psid/:serviceInquiryID", async (req, res) => {
   try {
     const serviceInquiry = await serviceInquiryController.updateServiceInquiry({
       ...req.body,
-      id: serviceInquiryID,
+      id: +serviceInquiryID,
     });
 
     await postServiceInquirySummary(psid, {
