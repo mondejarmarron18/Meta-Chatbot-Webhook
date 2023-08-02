@@ -17,15 +17,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/webhook", webhookRouter);
 app.use("/tickets", ticketRouter);
-app.use("/inquiries", serviceRouter);
+app.use("/serviceInquiry", serviceRouter);
 
 //Pages
 app.get("/", (req, res) => {
   res.render("index");
 });
 
-app.get("/service/:serviceID", (req, res) => {
-  const { serviceID } = req.params;
+app.get("/service-inquiry/:psid/:serviceID/", (req, res) => {
+  const { serviceID, psid } = req.params;
 
   const service = services.find((service) => {
     return service.id.toString() === serviceID;
@@ -33,6 +33,7 @@ app.get("/service/:serviceID", (req, res) => {
 
   res.render("service", {
     serviceTitle: service?.title,
+    psid,
   });
 });
 

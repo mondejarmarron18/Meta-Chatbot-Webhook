@@ -16,6 +16,18 @@ export type TServiceInquiry = {
 const prisma = new PrismaClient();
 
 const serviceInquiryController = {
+  createServiceInquiry: async (serviceInquiry: Omit<TServiceInquiry, "id">) => {
+    return await prisma.serviceInquiry.create({
+      data: serviceInquiry,
+    });
+  },
+  getServiceInquiry: async (serviceInquiryID: TServiceInquiry["id"]) => {
+    return await prisma.serviceInquiry.findUnique({
+      where: {
+        id: serviceInquiryID,
+      },
+    });
+  },
   sendEmail: async (serviceInquiryID: TServiceInquiry["id"]) => {
     try {
       const serviceInquiry = prisma.serviceInquiry.findUnique({

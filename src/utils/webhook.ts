@@ -124,7 +124,7 @@ export const postOurServices = async (psid: string) => {
                 {
                   type: "web_url",
                   title: "Inquire",
-                  url: `${config.FB_WEBVIEW_URL}/service/${service.id}`,
+                  url: `${config.FB_WEBVIEW_URL}/service-inquiry/${psid}/${service.id}`,
                   webview_height_ratio: "tall",
                   messenger_extensions: true,
                 },
@@ -247,7 +247,7 @@ export const postTicket = async (psid: string, ticket: TTicket) => {
       message: {
         text: `
           Thank you for contacting us. Your ticket number for your concerns is: LWS${ticketNumber}. Our team will be in touch with you within the next 24 hours. For any follow-ups or other concerns, you can also reach us via email at pmteam@lightweightsolutions.me.
-          \n\n
+
           We appreciate your patience and look forward to assisting you further.`,
         quick_replies: [
           {
@@ -266,7 +266,37 @@ export const postTicket = async (psid: string, ticket: TTicket) => {
   );
 };
 
-export const postServiceInquiryConfirmation = async (
+export const postServiceInquirySummary = async (
+  psid: string,
+  serviceInquiry: TServiceInquiry
+) => {
+  return await api.post(
+    `${config.FB_PAGE_ID}/messages`,
+    {
+      recipient: {
+        id: psid,
+      },
+      message_type: "RESPONSE",
+      message: {
+        text: `✍ Information Summary:
+            
+        Name: ${serviceInquiry.name}
+        Company Name: ${serviceInquiry.companyName}
+        Designation: ${serviceInquiry.designation}
+        Email: ${serviceInquiry.email}
+        Mobile Number: ${serviceInquiry.phone}
+        Concerns and Inquiry: ${serviceInquiry.conernsAndInquiry}`,
+      },
+    },
+    {
+      params: {
+        access_token: config.FB_PAGE_ACCESS_TOKEN,
+      },
+    }
+  );
+};
+
+export const postServiceInquirySummaryConfirmation = async (
   psid: string,
   serviceInquiry: TServiceInquiry
 ) => {
@@ -281,17 +311,9 @@ export const postServiceInquiryConfirmation = async (
           type: "template",
           payload: {
             template_type: "button",
-            text: `✍ Information Summary:
-            \n\n
-            Name: ${serviceInquiry.name}
-            Company Name: ${serviceInquiry.companyName}
-            Designation: ${serviceInquiry.designation}
-            Email: ${serviceInquiry.email}
-            Mobile Number: ${serviceInquiry.phone}
-            Concerns and Inquiry: ${serviceInquiry.conernsAndInquiry}
-            \n\n
+            text: `
             Is  the information above correct? 
-            \n\n
+            
             Hit I’M DONE  if it's all good or click EDIT if you need to change something. 😊`,
             buttons: [
               {
@@ -299,13 +321,13 @@ export const postServiceInquiryConfirmation = async (
                 title: "I'm Done",
                 payload: `${webhookPayload.serviceInquiryConfirmed}_${serviceInquiry.id}`,
               },
-              {
-                type: "web_url",
-                title: "Edit",
-                url: `${config.FB_WEBVIEW_URL}/issues-maintenance/${psid}/${serviceInquiry.id}`,
-                webview_height_ratio: "tall",
-                messenger_extensions: true,
-              },
+              // {
+              //   type: "web_url",
+              //   title: "Edit",
+              //   url: `${config.FB_WEBVIEW_URL}/service-inquiry/edit/${psid}`,
+              //   webview_height_ratio: "tall",
+              //   messenger_extensions: true,
+              // },
             ],
           },
         },

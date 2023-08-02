@@ -8,6 +8,16 @@
   </head>
   <body class="p-5 m-0 flex justify-center">
     <form class="max-w-md w-full flex flex-col gap-3" action="post">
+      <input
+        id="psid"
+        class="text-sm font-medium rounded"
+        type="text"
+        name="psid"
+        value="<%= psid %>"
+        hidden
+        disabled
+        required
+      />
       <div class="flex flex-col">
         <label for="name" class="font-semibold">Service</label>
         <input
@@ -98,6 +108,7 @@
     const form = document.querySelector("form");
     const statusPassed = document.getElementById("statusPassed");
     const statusFailed = document.getElementById("statusFailed");
+    const psid = document.getElementById("psid");
 
     // Add a form submission event listener
     form.addEventListener("submit", (event) => {
@@ -106,7 +117,7 @@
       // Get the form data as a URL-encoded string
       const formData = new URLSearchParams(new FormData(form));
 
-      fetch("/inquiries", {
+      fetch(`/serviceInquiry/${psid}`, {
         method: "POST",
         body: formData,
         headers: {
