@@ -59,6 +59,14 @@ const serviceInquiryController = {
       console.log(error);
     }
   },
+  updateServiceInquiry: async (serviceInquiry: TServiceInquiry) => {
+    return await prisma.serviceInquiry.update({
+      where: {
+        id: serviceInquiry.id,
+      },
+      data: serviceInquiry,
+    });
+  },
 };
 
 export default serviceInquiryController;

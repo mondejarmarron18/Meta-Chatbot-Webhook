@@ -69,18 +69,24 @@ serviceInquiryRouter.get("/", async (req, res) => {
 });
 
 serviceInquiryRouter.put("/:psid/:serviceInquiryID", async (req, res) => {
-  const { psid, serviceInquiryID } = req.query;
+  const { psid, serviceInquiryID } = req.params;
 
-  res.send({ psid, serviceInquiryID, body: req.body });
-  // try {
-  //   const serviceInquiries =
-  //     await serviceInquiryController.getServiceInquiries();
+  try {
+    const serviceInquiry = await serviceInquiryController.updateServiceInquiry(
+      req.body
+    );
 
-  //   res.status(200).send(serviceInquiries);
-  // } catch (error) {
-  //   console.log(error);
-  //   res.sendStatus(200);
-  // }
+    await postServiceInquirySummary(psid, {
+      ...serviceInquiry,
+      id: +serviceInquiryID,
+    });
+    await postServiceInquirySummaryConfirmation(psid, serviceInquiry);
+
+    res.sendStatus(200);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
 });
 
 export default serviceInquiryRouter;
