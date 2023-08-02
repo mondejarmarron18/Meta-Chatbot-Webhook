@@ -73,22 +73,14 @@ webhookRouter.post("/", async (req, res) => {
         }
 
         const payload = event.postback?.payload;
+        const serviceInquiryConfirmed = webhookPayload.serviceInquiryConfirmed;
 
         //Email servince inquiry
-        if (payload?.includes(webhookPayload.serviceInquiryConfirmed)) {
-          console.log(payload);
-          console.log(payload?.split(webhookPayload.serviceInquiryConfirmed));
-          console.log(
-            payload?.split(webhookPayload.serviceInquiryConfirmed).join("")
-          );
-          console.log(
-            +payload?.split(webhookPayload.serviceInquiryConfirmed).join("")
-          );
-          return;
-          // const serviceInquiryID = payload
-          //   ?.split(webhookPayload.serviceInquiryConfirmed)
-          //   .join("");
-          // return serviceInquiryController.sendEmail(+serviceInquiryID);
+        if (payload?.includes(serviceInquiryConfirmed)) {
+          const serviceInquiryID = payload
+            ?.split(`${serviceInquiryConfirmed}_`)
+            .join("");
+          return serviceInquiryController.sendEmail(+serviceInquiryID);
         }
       }
     });
