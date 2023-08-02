@@ -70,13 +70,17 @@ webhookRouter.post("/", async (req, res) => {
             return postScheduleMeeting(psid);
           case webhookPayload.otherInquiry:
             return postOtherInquiry(psid);
-          case event.postback?.payload?.includes(
-            webhookPayload.serviceInquiryConfirmed
-          ):
-            const serviceInquiryID = event.postback.payload
-              ?.split(webhookPayload.serviceInquiryConfirmed)
-              .join("");
-            return serviceInquiryController.sendEmail(+serviceInquiryID);
+        }
+
+        const payload = event.postback?.payload;
+
+        console.log(event.postback?.payload);
+
+        if (payload?.includes(webhookPayload.serviceInquiryConfirmed)) {
+          const serviceInquiryID = payload
+            ?.split(webhookPayload.serviceInquiryConfirmed)
+            .join("");
+          return serviceInquiryController.sendEmail(+serviceInquiryID);
         }
       }
     });
