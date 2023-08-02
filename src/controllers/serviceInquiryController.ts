@@ -1,5 +1,6 @@
 import SGMail from "@sendgrid/mail";
 import config from "../utils/config";
+import { PrismaClient } from "@prisma/client";
 
 export type TServiceInquiry = {
   id: number;
@@ -12,26 +13,38 @@ export type TServiceInquiry = {
   conernsAndInquiry: string;
 };
 
+const prisma = new PrismaClient();
+
 const serviceInquiryController = {
-  sendEmail: async (serviceInquiry: Omit<TServiceInquiry, "id">) => {
-    SGMail.setApiKey(`${config.SENDGRID_API_KEY}`);
+  sendEmail: async (serviceInquiryID: number) => {
+    try {
+      const serviceInquiry = prisma.serviceInquiry.findUnique({
+        where: {
+          id: serviceInquiryID,
+        },
+      }) as unknown as TServiceInquiry;
 
-    const message = {
-      to: `${config.SENDGRID_RECEIVER_EMAIL}`, // Change to your recipient
-      from: `${config.SENDGRID_SENDER_EMAIL}`, // Change to your verified sender
-      subject: "Service Inquiry",
-      html: `
-            <p><b>Service Name: </b>${serviceInquiry.serviceName}</p>
-            <p><b>Name: </b>${serviceInquiry.name}</p>
-            <p><b>Company Name: </b>${serviceInquiry.companyName}</p> 
-            <p><b>Designation: </b>${serviceInquiry.designation}</p>
-            <p><b>Email: </b>${serviceInquiry.email}</p>
-            <p><b>Phone: </b>${serviceInquiry.phone}</p>
-            <p><b>Concerns/Inquiry: </b>${serviceInquiry.conernsAndInquiry}</p>
-            `,
-    };
+      SGMail.setApiKey(`${config.SENDGRID_API_KEY}`);
 
-    return SGMail.send(message);
+      const message = {
+        to: `${config.SENDGRID_RECEIVER_EMAIL}`, // Change to your recipient
+        from: `${config.SENDGRID_SENDER_EMAIL}`, // Change to your verified sender
+        subject: "Service Inquiry",
+        html: `
+              <p><b>Service Name: </b>${serviceInquiry.serviceName}</p>
+              <p><b>Name: </b>${serviceInquiry.name}</p>
+              <p><b>Company Name: </b>${serviceInquiry.companyName}</p> 
+              <p><b>Designation: </b>${serviceInquiry.designation}</p>
+              <p><b>Email: </b>${serviceInquiry.email}</p>
+              <p><b>Phone: </b>${serviceInquiry.phone}</p>
+              <p><b>Concerns/Inquiry: </b>${serviceInquiry.conernsAndInquiry}</p>
+              `,
+      };
+
+      return SGMail.send(message);
+    } catch (error) {
+      console.log(error);
+    }
   },
 };
 
