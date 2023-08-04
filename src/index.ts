@@ -16,9 +16,9 @@ app.use(express.json());
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use("/webhook", webhookRouter);
-app.use("/tickets", ticketRouter);
-app.use("/serviceInquiry", serviceInquiryRouter);
+// app.use("/webhook", webhookRouter);
+// app.use("/tickets", ticketRouter);
+// app.use("/serviceInquiry", serviceInquiryRouter);
 
 //Pages
 app.get("/", (req, res) => {
