@@ -7,7 +7,7 @@ import {
   postOtherInquiry,
   postOurServices,
   postScheduleMeeting,
-  postGreeting,
+  postWelcome,
 } from "../utils/webhook";
 import webhookPayload from "../utils/webhookPayload";
 import serviceInquiryController from "../controllers/serviceInquiryController";
@@ -51,15 +51,15 @@ webhookRouter.post("/", async (req, res) => {
         if (event.message?.quick_reply) {
           switch (event.message.quick_reply?.payload) {
             case webhookPayload.goBack:
-              return postGreeting(psid);
+              return postWelcome(psid);
           }
         }
       } else if (event?.postback) {
         switch (event.postback?.payload) {
           case webhookPayload.getStarted:
-            return postGreeting(psid || event.sender?.user_ref);
+            return postWelcome(psid || event.sender?.user_ref);
           case webhookPayload.goBack:
-            return postGreeting(psid);
+            return postWelcome(psid);
           case webhookPayload.aboutUs:
             return postAboutUs(psid);
           case webhookPayload.ourServices:

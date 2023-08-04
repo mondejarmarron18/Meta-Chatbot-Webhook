@@ -11,12 +11,6 @@ export const postGetStarted = async () => {
     "/me/messenger_profile",
     {
       get_started: { payload: webhookPayload.getStarted },
-      greeting: [
-        {
-          locale: "default",
-          text: "Hi {{user_first_name}}, Welcome to Lightweight Solutions Page!",
-        },
-      ],
     },
     {
       params: {
@@ -26,7 +20,7 @@ export const postGetStarted = async () => {
   );
 };
 
-export const postGreeting = async (psid: string) => {
+export const postWelcome = async (psid: string) => {
   return await api.post(
     `/me/messages`,
     {
@@ -38,7 +32,7 @@ export const postGreeting = async (psid: string) => {
           type: "template",
           payload: {
             template_type: "button",
-            text: `😊 Please choose from the options below to learn more.`,
+            text: `Hi {{user_first_name}}, Welcome to Lightweight Solutions Page!😊 Please choose from the options below to learn more.`,
             buttons: [
               {
                 type: "postback",
