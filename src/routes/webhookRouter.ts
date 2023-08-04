@@ -89,4 +89,15 @@ webhookRouter.post("/", async (req, res) => {
   res.status(200).send("EVENT_RECEIVED");
 });
 
+webhookRouter.get("/get-started", async (req, res) => {
+  try {
+    await postGetStarted();
+
+    res.sendStatus(200);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+});
+
 export default webhookRouter;

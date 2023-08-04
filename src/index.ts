@@ -17,7 +17,6 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/webhook", webhookRouter);
-app.use("/webhook-getstarted", webhookRouter);
 app.use("/tickets", ticketRouter);
 app.use("/serviceInquiry", serviceInquiryRouter);
 
