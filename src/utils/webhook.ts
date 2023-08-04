@@ -1,3 +1,4 @@
+import axios from "axios";
 import { TServiceInquiry } from "../controllers/serviceInquiryController";
 import { TTicket } from "../controllers/ticketController";
 import api from "./api";
@@ -27,6 +28,8 @@ export const postGetStarted = async () => {
 };
 
 export const postWelcome = async (psid: string) => {
+  const userProfile = await getUserProfile(psid, ["first_name"]);
+
   return await api.post(
     `/me/messages`,
     {
@@ -38,7 +41,7 @@ export const postWelcome = async (psid: string) => {
           type: "template",
           payload: {
             template_type: "button",
-            text: `Hi, Welcome to Lightweight Solutions Page!😊 Please choose from the options below to learn more.`,
+            text: `Hi ${userProfile?.first_name}, Welcome to Lightweight Solutions Page!😊 Please choose from the options below to learn more.`,
             buttons: [
               {
                 type: "postback",
@@ -340,4 +343,36 @@ export const postServiceInquirySummaryConfirmation = async (
       },
     }
   );
+};
+
+type TUserProfile = {
+  id: number;
+  name: string;
+  first_name: string;
+  last_name: string;
+  profile_pic: string;
+  locale: string;
+  timezone: string;
+  gender: string;
+};
+
+export const getUserProfile = async (
+  psid: string,
+  fields: Array<
+    | "id"
+    | "name"
+    | "first_name"
+    | "lastname"
+    | "profile_pic"
+    | "locale"
+    | "timezone"
+    | "gender"
+  >
+): Promise<Partial<TUserProfile>> => {
+  return await axios.post(`https://graph.facebook.com/${psid}`, {
+    params: {
+      fields: fields.join(","),
+      access_token: config.FB_PAGE_ACCESS_TOKEN,
+    },
+  });
 };
