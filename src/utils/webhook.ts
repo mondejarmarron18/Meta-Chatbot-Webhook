@@ -28,7 +28,7 @@ export const postGetStarted = async () => {
 };
 
 export const postWelcome = async (psid: string) => {
-  // const userProfile = await getUserProfile(psid, ["first_name"]);
+  const userProfile = await getUserProfile(psid, ["first_name"]);
 
   return await api.post(
     `/me/messages`,
@@ -41,7 +41,7 @@ export const postWelcome = async (psid: string) => {
           type: "template",
           payload: {
             template_type: "button",
-            text: `Hi, Welcome to Lightweight Solutions Page!😊 Please choose from the options below to learn more.`,
+            text: `Hi ${userProfile.first_name}, Welcome to Lightweight Solutions Page!😊 Please choose from the options below to learn more.`,
             buttons: [
               {
                 type: "postback",
