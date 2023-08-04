@@ -6,6 +6,7 @@ import { services } from "./data/services";
 import webhookPayload from "./webhookPayload";
 
 export const postGetStarted = async () => {
+  console.log("Get Started is Runnin...");
   return await api.post(
     "/me/messenger_profile",
     {
