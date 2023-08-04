@@ -93,7 +93,8 @@ webhookRouter.post("/", async (req, res) => {
 
 webhookRouter.get("/get-started", async (req, res) => {
   try {
-    await postGetStarted();
+    const greetingMessage = req.body.greetingMessage;
+    await postGetStarted(greetingMessage);
 
     res.sendStatus(200);
   } catch (error) {

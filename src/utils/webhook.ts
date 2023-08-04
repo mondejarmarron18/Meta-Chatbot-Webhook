@@ -5,7 +5,7 @@ import config from "./config";
 import { services } from "./data/services";
 import webhookPayload from "./webhookPayload";
 
-export const postGetStarted = async () => {
+export const postGetStarted = async (greetingMessage?: string) => {
   console.log("Get Started is Running...");
   return await api.post(
     "/me/messenger_profile",
@@ -14,7 +14,7 @@ export const postGetStarted = async () => {
       greeting: [
         {
           locale: "default",
-          text: "",
+          text: `${greetingMessage}`,
         },
       ],
     },
@@ -38,7 +38,7 @@ export const postWelcome = async (psid: string) => {
           type: "template",
           payload: {
             template_type: "button",
-            text: `Hi {{user_first_name}}, Welcome to Lightweight Solutions Page!😊 Please choose from the options below to learn more.`,
+            text: `Hi, Welcome to Lightweight Solutions Page!😊 Please choose from the options below to learn more.`,
             buttons: [
               {
                 type: "postback",

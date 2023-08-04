@@ -1,6 +1,4 @@
 import { Router } from "express";
-import SGMail from "@sendgrid/mail";
-import config from "../utils/config";
 import serviceInquiryController from "../controllers/serviceInquiryController";
 import {
   postServiceInquirySummary,
