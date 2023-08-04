@@ -1,4 +1,3 @@
-import axios from "axios";
 import { TServiceInquiry } from "../controllers/serviceInquiryController";
 import { TTicket } from "../controllers/ticketController";
 import api from "./api";
@@ -374,7 +373,7 @@ export const getUserProfile = async (
   fields: TUserProfileFieds
 ): Promise<Partial<TUserProfile>> => {
   try {
-    return await axios.get(`https://graph.facebook.com/${psid}`, {
+    return await api.get(`/${psid}`, {
       params: {
         fields: fields.join(","),
         access_token: config.FB_PAGE_ACCESS_TOKEN,
