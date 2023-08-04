@@ -5,7 +5,7 @@ import config from "./config";
 import { services } from "./data/services";
 import webhookPayload from "./webhookPayload";
 
-export const postGetStarted = async (greetingMessage?: string) => {
+export const postGetStarted = async () => {
   console.log("Get Started is Running...");
   return await api.post(
     "/me/messenger_profile",
@@ -14,7 +14,7 @@ export const postGetStarted = async (greetingMessage?: string) => {
       greeting: [
         {
           locale: "default",
-          text: `${greetingMessage}`,
+          text: "",
         },
       ],
     },
