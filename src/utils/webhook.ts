@@ -41,7 +41,9 @@ export const postWelcome = async (psid: string) => {
           type: "template",
           payload: {
             template_type: "button",
-            text: `Hi ${userProfile.first_name}, Welcome to Lightweight Solutions Page!😊 Please choose from the options below to learn more.`,
+            text: `Hi ${
+              userProfile.first_name || ""
+            }, Welcome to Lightweight Solutions Page!😊 Please choose from the options below to learn more.`,
             buttons: [
               {
                 type: "postback",
@@ -379,6 +381,7 @@ export const getUserProfile = async (
       },
     });
   } catch (error) {
+    console.log(error);
     return {};
   }
 };
