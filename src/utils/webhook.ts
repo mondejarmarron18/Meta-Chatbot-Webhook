@@ -371,10 +371,14 @@ export const getUserProfile = async (
   psid: string,
   fields: TUserProfileFieds
 ): Promise<Partial<TUserProfile>> => {
-  return await axios.get(`https://graph.facebook.com/${psid}`, {
-    params: {
-      fields: fields.join(","),
-      access_token: config.FB_PAGE_ACCESS_TOKEN,
-    },
-  });
+  try {
+    return await axios.get(`https://graph.facebook.com/${psid}`, {
+      params: {
+        fields: fields.join(","),
+        access_token: config.FB_PAGE_ACCESS_TOKEN,
+      },
+    });
+  } catch (error) {
+    return {};
+  }
 };
