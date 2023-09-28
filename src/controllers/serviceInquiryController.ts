@@ -1,6 +1,7 @@
 import SGMail from "@sendgrid/mail";
 import config from "../utils/config";
 import { PrismaClient } from "@prisma/client";
+import { postWelcome } from "../utils/webhook";
 
 export type TServiceInquiry = {
   id: number;
@@ -31,11 +32,14 @@ const serviceInquiryController = {
   getServiceInquiries: async () => {
     return await prisma.serviceInquiry.findMany();
   },
-  sendEmail: async (serviceInquiryID: TServiceInquiry["id"]) => {
+  sendEmail: async (params: {
+    serviceInquiryID: TServiceInquiry["id"];
+    psid: string;
+  }) => {
     try {
       const serviceInquiry = (await prisma.serviceInquiry.findUnique({
         where: {
-          id: serviceInquiryID,
+          id: params.serviceInquiryID,
         },
       })) as TServiceInquiry;
 
@@ -54,7 +58,9 @@ const serviceInquiryController = {
           <p><b>Concerns/Inquiry: </b>${serviceInquiry.conernsAndInquiry}</p>`,
       };
 
-      return SGMail.send(message);
+      await SGMail.send(message);
+
+      return postWelcome(params.psid);
     } catch (error) {
       console.log(error);
     }

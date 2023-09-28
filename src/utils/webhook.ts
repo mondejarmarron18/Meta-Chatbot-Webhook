@@ -250,10 +250,7 @@ export const postTicket = async (psid: string, ticket: TTicket) => {
       },
       messaging_type: "RESPONSE",
       message: {
-        text: `
-          Thank you for contacting us. Your ticket number for your concerns is: LWS${ticketNumber}. Our team will be in touch with you within the next 24 hours. For any follow-ups or other concerns, you can also reach us via email at pmteam@lightweightsolutions.me.
-
-          We appreciate your patience and look forward to assisting you further.`,
+        text: `Thank you for contacting us. Your ticket number for your concerns is: LWS${ticketNumber}. Our team will be in touch with you within the next 24 hours. For any follow-ups or other concerns, you can also reach us via email at pmteam@lightweightsolutions.me.\n\nWe appreciate your patience and look forward to assisting you further.`,
         quick_replies: [
           {
             content_type: "text",
@@ -283,14 +280,7 @@ export const postServiceInquirySummary = async (
       },
       message_type: "RESPONSE",
       message: {
-        text: `✍ Information Summary:
-            
-        Name: ${serviceInquiry.name}
-        Company Name: ${serviceInquiry.companyName}
-        Designation: ${serviceInquiry.designation}
-        Email: ${serviceInquiry.email}
-        Mobile Number: ${serviceInquiry.phone}
-        Concerns and Inquiry: ${serviceInquiry.conernsAndInquiry}`,
+        text: `✍ Information Summary:\n\nName: ${serviceInquiry.name}\nCompany Name: ${serviceInquiry.companyName}\nDesignation: ${serviceInquiry.designation}\nEmail: ${serviceInquiry.email}\nMobile Number: ${serviceInquiry.phone}\nConcerns and Inquiry: ${serviceInquiry.conernsAndInquiry}`,
       },
     },
     {
@@ -316,10 +306,7 @@ export const postServiceInquirySummaryConfirmation = async (
           type: "template",
           payload: {
             template_type: "button",
-            text: `
-            Is  the information above correct? 
-            
-            Hit I’M DONE  if it's all good or click EDIT if you need to change something. 😊`,
+            text: `Is  the information above correct?\n\nHit I’M DONE  if it's all good or click EDIT if you need to change something. 😊`,
             buttons: [
               {
                 type: "postback",

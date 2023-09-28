@@ -80,7 +80,10 @@ webhookRouter.post("/", async (req, res) => {
           const serviceInquiryID = payload
             ?.split(`${serviceInquiryConfirmed}_`)
             .join("");
-          return serviceInquiryController.sendEmail(+serviceInquiryID);
+          return serviceInquiryController.sendEmail({
+            serviceInquiryID: +serviceInquiryID,
+            psid,
+          });
         }
       }
     });
