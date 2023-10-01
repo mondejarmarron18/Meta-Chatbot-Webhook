@@ -12,18 +12,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.postServiceInquirySummaryConfirmation = exports.postServiceInquirySummary = exports.postTicket = exports.postScheduleMeeting = exports.postOtherInquiry = exports.postInquiries = exports.postOurServices = exports.postAboutUs = exports.postGreeting = exports.postGetStarted = void 0;
+exports.getUserProfile = exports.postServiceInquirySummaryConfirmation = exports.postServiceInquirySummary = exports.postTicket = exports.postScheduleMeeting = exports.postOtherInquiry = exports.postInquiries = exports.postOurServices = exports.postAboutUs = exports.postWelcome = exports.postGetStarted = void 0;
 const api_1 = __importDefault(require("./api"));
 const config_1 = __importDefault(require("./config"));
 const services_1 = require("./data/services");
 const webhookPayload_1 = __importDefault(require("./webhookPayload"));
 const postGetStarted = () => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("Get Started is Running...");
     return yield api_1.default.post("/me/messenger_profile", {
         get_started: { payload: webhookPayload_1.default.getStarted },
         greeting: [
             {
                 locale: "default",
-                text: "Hi {{user_first_name}}, Welcome to Lightweight Solutions Page!",
+                text: "",
             },
         ],
     }, {
@@ -33,7 +34,8 @@ const postGetStarted = () => __awaiter(void 0, void 0, void 0, function* () {
     });
 });
 exports.postGetStarted = postGetStarted;
-const postGreeting = (psid) => __awaiter(void 0, void 0, void 0, function* () {
+const postWelcome = (psid) => __awaiter(void 0, void 0, void 0, function* () {
+    const userProfile = yield (0, exports.getUserProfile)(psid, ["first_name"]);
     return yield api_1.default.post(`/me/messages`, {
         recipient: {
             id: psid,
@@ -43,7 +45,7 @@ const postGreeting = (psid) => __awaiter(void 0, void 0, void 0, function* () {
                 type: "template",
                 payload: {
                     template_type: "button",
-                    text: `😊 Please choose from the options below to learn more.`,
+                    text: `Hi ${userProfile.first_name || ""}, Welcome to Lightweight Solutions Page!😊 Please choose from the options below to learn more.`,
                     buttons: [
                         {
                             type: "postback",
@@ -70,7 +72,7 @@ const postGreeting = (psid) => __awaiter(void 0, void 0, void 0, function* () {
         },
     });
 });
-exports.postGreeting = postGreeting;
+exports.postWelcome = postWelcome;
 const postAboutUs = (psid) => __awaiter(void 0, void 0, void 0, function* () {
     return yield api_1.default.post(`/me/messages`, {
         recipient: {
@@ -226,10 +228,7 @@ const postTicket = (psid, ticket) => __awaiter(void 0, void 0, void 0, function*
         },
         messaging_type: "RESPONSE",
         message: {
-            text: `
-          Thank you for contacting us. Your ticket number for your concerns is: LWS${ticketNumber}. Our team will be in touch with you within the next 24 hours. For any follow-ups or other concerns, you can also reach us via email at pmteam@lightweightsolutions.me.
-
-          We appreciate your patience and look forward to assisting you further.`,
+            text: `Thank you for contacting us. Your ticket number for your concerns is: LWS${ticketNumber}. Our team will be in touch with you within the next 24 hours. For any follow-ups or other concerns, you can also reach us via email at pmteam@lightweightsolutions.me.\n\nWe appreciate your patience and look forward to assisting you further.`,
             quick_replies: [
                 {
                     content_type: "text",
@@ -252,14 +251,7 @@ const postServiceInquirySummary = (psid, serviceInquiry) => __awaiter(void 0, vo
         },
         message_type: "RESPONSE",
         message: {
-            text: `✍ Information Summary:
-            
-        Name: ${serviceInquiry.name}
-        Company Name: ${serviceInquiry.companyName}
-        Designation: ${serviceInquiry.designation}
-        Email: ${serviceInquiry.email}
-        Mobile Number: ${serviceInquiry.phone}
-        Concerns and Inquiry: ${serviceInquiry.conernsAndInquiry}`,
+            text: `✍ Information Summary:\n\nName: ${serviceInquiry.name}\nCompany Name: ${serviceInquiry.companyName}\nDesignation: ${serviceInquiry.designation}\nEmail: ${serviceInquiry.email}\nMobile Number: ${serviceInquiry.phone}\nConcerns and Inquiry: ${serviceInquiry.conernsAndInquiry}`,
         },
     }, {
         params: {
@@ -278,23 +270,20 @@ const postServiceInquirySummaryConfirmation = (psid, serviceInquiry) => __awaite
                 type: "template",
                 payload: {
                     template_type: "button",
-                    text: `
-            Is  the information above correct? 
-            
-            Hit I’M DONE  if it's all good or click EDIT if you need to change something. 😊`,
+                    text: `Is  the information above correct?\n\nHit I’M DONE  if it's all good or click EDIT if you need to change something. 😊`,
                     buttons: [
                         {
                             type: "postback",
                             title: "I'm Done",
                             payload: `${webhookPayload_1.default.serviceInquiryConfirmed}_${serviceInquiry.id}`,
                         },
-                        // {
-                        //   type: "web_url",
-                        //   title: "Edit",
-                        //   url: `${config.FB_WEBVIEW_URL}/service-inquiry/edit/${psid}`,
-                        //   webview_height_ratio: "tall",
-                        //   messenger_extensions: true,
-                        // },
+                        {
+                            type: "web_url",
+                            title: "Edit",
+                            url: `${config_1.default.FB_WEBVIEW_URL}/service-inquiry/update/${psid}/${serviceInquiry.id}`,
+                            webview_height_ratio: "tall",
+                            messenger_extensions: true,
+                        },
                     ],
                 },
             },
@@ -306,3 +295,18 @@ const postServiceInquirySummaryConfirmation = (psid, serviceInquiry) => __awaite
     });
 });
 exports.postServiceInquirySummaryConfirmation = postServiceInquirySummaryConfirmation;
+const getUserProfile = (psid, fields) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        return yield api_1.default.get(`/${psid}`, {
+            params: {
+                fields: fields.join(","),
+                access_token: config_1.default.FB_PAGE_ACCESS_TOKEN,
+            },
+        });
+    }
+    catch (error) {
+        console.log(error);
+        return {};
+    }
+});
+exports.getUserProfile = getUserProfile;

@@ -15,11 +15,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const serviceInquiryController_1 = __importDefault(require("../controllers/serviceInquiryController"));
 const webhook_1 = require("../utils/webhook");
-const servinceInquiryRouter = (0, express_1.Router)();
-servinceInquiryRouter.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    return yield serviceInquiryController_1.default.createServiceInquiry(req.body);
+const serviceInquiryRouter = (0, express_1.Router)();
+serviceInquiryRouter.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const serviceInquiry = yield serviceInquiryController_1.default.createServiceInquiry(req.body);
+        res.status(201).send(serviceInquiry);
+    }
+    catch (error) {
+        console.log(error);
+        res.sendStatus(500);
+    }
+    return;
 }));
-servinceInquiryRouter.post("/:psid", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+serviceInquiryRouter.post("/:psid", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const psid = req.params.psid;
     try {
         const serviceInquiry = yield serviceInquiryController_1.default.createServiceInquiry(req.body);
@@ -32,4 +40,47 @@ servinceInquiryRouter.post("/:psid", (req, res) => __awaiter(void 0, void 0, voi
         res.sendStatus(500);
     }
 }));
-exports.default = servinceInquiryRouter;
+serviceInquiryRouter.get("/:serviceInquiryID", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const serviceInquiryID = req.params.serviceInquiryID;
+        const serviceInquiry = yield serviceInquiryController_1.default.getServiceInquiry(+serviceInquiryID);
+        res.status(200).send(serviceInquiry);
+    }
+    catch (error) {
+        console.log(error);
+        res.sendStatus(500);
+    }
+}));
+serviceInquiryRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const serviceInquiries = yield serviceInquiryController_1.default.getServiceInquiries();
+        res.status(200).send(serviceInquiries);
+    }
+    catch (error) {
+        console.log(error);
+        res.sendStatus(200);
+    }
+}));
+serviceInquiryRouter.put("/:psid/:serviceInquiryID", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { psid, serviceInquiryID } = req.params;
+    try {
+        const serviceInquiry = yield serviceInquiryController_1.default.updateServiceInquiry(Object.assign(Object.assign({}, req.body), { id: +serviceInquiryID }));
+        yield (0, webhook_1.postServiceInquirySummary)(psid, Object.assign(Object.assign({}, serviceInquiry), { id: +serviceInquiryID }));
+        yield (0, webhook_1.postServiceInquirySummaryConfirmation)(psid, serviceInquiry);
+        res.sendStatus(200);
+    }
+    catch (error) {
+        console.log(error);
+        res.sendStatus(500);
+    }
+}));
+serviceInquiryRouter.delete("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const count = yield serviceInquiryController_1.default.deleteInquiries();
+        res.status(200).send(count);
+    }
+    catch (error) {
+        res.sendStatus(500);
+    }
+}));
+exports.default = serviceInquiryRouter;

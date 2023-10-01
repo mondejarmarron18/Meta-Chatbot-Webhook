@@ -44,22 +44,22 @@ webhookRouter.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function
     }
     body.entry.forEach((entry) => {
         entry.messaging.forEach((event) => {
-            var _a, _b, _c, _d, _e, _f, _g;
+            var _a, _b, _c, _d, _e;
             const psid = event.sender.id;
             if (event === null || event === void 0 ? void 0 : event.message) {
                 if ((_a = event.message) === null || _a === void 0 ? void 0 : _a.quick_reply) {
                     switch ((_b = event.message.quick_reply) === null || _b === void 0 ? void 0 : _b.payload) {
                         case webhookPayload_1.default.goBack:
-                            return (0, webhook_1.postGreeting)(psid);
+                            return (0, webhook_1.postWelcome)(psid);
                     }
                 }
             }
             else if (event === null || event === void 0 ? void 0 : event.postback) {
                 switch ((_c = event.postback) === null || _c === void 0 ? void 0 : _c.payload) {
                     case webhookPayload_1.default.getStarted:
-                        return (0, webhook_1.postGreeting)(psid || ((_d = event.sender) === null || _d === void 0 ? void 0 : _d.user_ref));
+                        return (0, webhook_1.postWelcome)(psid || ((_d = event.sender) === null || _d === void 0 ? void 0 : _d.user_ref));
                     case webhookPayload_1.default.goBack:
-                        return (0, webhook_1.postGreeting)(psid);
+                        return (0, webhook_1.postWelcome)(psid);
                     case webhookPayload_1.default.aboutUs:
                         return (0, webhook_1.postAboutUs)(psid);
                     case webhookPayload_1.default.ourServices:
@@ -70,13 +70,30 @@ webhookRouter.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function
                         return (0, webhook_1.postScheduleMeeting)(psid);
                     case webhookPayload_1.default.otherInquiry:
                         return (0, webhook_1.postOtherInquiry)(psid);
-                    case (_f = (_e = event.postback) === null || _e === void 0 ? void 0 : _e.payload) === null || _f === void 0 ? void 0 : _f.includes(webhookPayload_1.default.serviceInquiryConfirmed):
-                        const serviceInquiryID = (_g = event.postback.payload) === null || _g === void 0 ? void 0 : _g.split(webhookPayload_1.default.serviceInquiryConfirmed).join("");
-                        return serviceInquiryController_1.default.sendEmail(+serviceInquiryID);
+                }
+                const payload = (_e = event.postback) === null || _e === void 0 ? void 0 : _e.payload;
+                const serviceInquiryConfirmed = webhookPayload_1.default.serviceInquiryConfirmed;
+                //Email servince inquiry
+                if (payload === null || payload === void 0 ? void 0 : payload.includes(serviceInquiryConfirmed)) {
+                    const serviceInquiryID = payload === null || payload === void 0 ? void 0 : payload.split(`${serviceInquiryConfirmed}_`).join("");
+                    return serviceInquiryController_1.default.sendEmail({
+                        serviceInquiryID: +serviceInquiryID,
+                        psid,
+                    });
                 }
             }
         });
     });
     res.status(200).send("EVENT_RECEIVED");
+}));
+webhookRouter.get("/get-started", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield (0, webhook_1.postGetStarted)();
+        res.sendStatus(200);
+    }
+    catch (error) {
+        console.log(error);
+        res.sendStatus(500);
+    }
 }));
 exports.default = webhookRouter;
