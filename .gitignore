@@ -1,5 +1,1 @@
 /node_modules
-/dist
-/prisma/migrations
-/prisma/prod.db
-/prisma/prod.db-journal
