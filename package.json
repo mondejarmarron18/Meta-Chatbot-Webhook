@@ -7,7 +7,7 @@
     "yarn": "v1.22.19"
   },
   "scripts": {
-    "dev": "nodemon src/index.ts",
+    "dev": "nodemon src/main.ts",
     "build": "tsc"
   },
   "dependencies": {

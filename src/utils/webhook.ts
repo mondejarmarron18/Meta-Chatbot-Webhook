@@ -42,7 +42,7 @@ export const postWelcome = async (psid: string) => {
             template_type: "button",
             text: `Hi ${
               userProfile.first_name || ""
-            }, Welcome to Lightweight Solutions Page!😊 Please choose from the options below to learn more.`,
+            }, Welcome to IForgeTech Page!😊 Please choose from the options below to learn more.`,
             buttons: [
               {
                 type: "postback",
@@ -84,12 +84,12 @@ export const postAboutUs = async (psid: string) => {
           type: "template",
           payload: {
             template_type: "button",
-            text: `Lightweight Solutions founded in 2008 is an expert in the field of IT and has worked with many multinational and leading enterprises in the country.\n\nThe company has developed innovations, software solutions and technology products in the areas of healthcare, finance, FMCG, real estate, education, entertainment and electrification among others.\n\nWe envision a world that is smarter, better and more enjoyable through simplified technology while making it sustainable for future generations as well`,
+            text: `IForgeTech founded in 2008 is an expert in the field of IT and has worked with many multinational and leading enterprises in the country.\n\nThe company has developed innovations, software solutions and technology products in the areas of healthcare, finance, FMCG, real estate, education, entertainment and electrification among others.\n\nWe envision a world that is smarter, better and more enjoyable through simplified technology while making it sustainable for future generations as well`,
             buttons: [
               {
                 type: "web_url",
                 title: "Learn More",
-                url: "https://lightweightsolutions.co",
+                url: "https://iforgetech.com",
               },
               {
                 type: "postback",
@@ -250,7 +250,7 @@ export const postTicket = async (psid: string, ticket: TTicket) => {
       },
       messaging_type: "RESPONSE",
       message: {
-        text: `Thank you for contacting us. Your ticket number for your concerns is: LWS${ticketNumber}. Our team will be in touch with you within the next 24 hours. For any follow-ups or other concerns, you can also reach us via email at pmteam@lightweightsolutions.me.\n\nWe appreciate your patience and look forward to assisting you further.`,
+        text: `Thank you for contacting us. Your ticket number for your concerns is: IFT${ticketNumber}. Our team will be in touch with you within the next 24 hours. For any follow-ups or other concerns, you can also reach us via email at dev@iforgetech.com.\n\nWe appreciate your patience and look forward to assisting you further.`,
         quick_replies: [
           {
             content_type: "text",
